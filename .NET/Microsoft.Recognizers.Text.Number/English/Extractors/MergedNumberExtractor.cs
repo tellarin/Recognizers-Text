@@ -25,10 +25,9 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public sealed override Regex ConnectorRegex { get; set; }
 
-        public static MergedNumberExtractor GetInstance(
-            NumberMode mode = NumberMode.Default,
-            NumberOptions options = NumberOptions.None)
+        public static MergedNumberExtractor GetInstance(NumberMode mode = NumberMode.Default, NumberOptions options = NumberOptions.None)
         {
+
             var cacheKey = (mode, options);
             if (!Instances.ContainsKey(cacheKey))
             {

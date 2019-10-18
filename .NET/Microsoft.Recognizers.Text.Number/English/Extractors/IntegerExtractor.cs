@@ -14,8 +14,10 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, IntegerExtractor> Instances =
             new ConcurrentDictionary<string, IntegerExtractor>();
 
-        private IntegerExtractor(string placeholder = NumbersDefinitions.PlaceHolderDefault)
+        private IntegerExtractor(NumberOptions options, string placeholder)
+            : base(options)
         {
+
             var regexes = new Dictionary<Regex, TypeTag>
             {
                 {
@@ -63,11 +65,13 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_INTEGER; // "Integer";
 
-        public static IntegerExtractor GetInstance(string placeholder = NumbersDefinitions.PlaceHolderDefault)
+        public static IntegerExtractor GetInstance(NumberOptions options = NumberOptions.None,
+                                                   string placeholder = NumbersDefinitions.PlaceHolderDefault)
         {
+
             if (!Instances.ContainsKey(placeholder))
             {
-                var instance = new IntegerExtractor(placeholder);
+                var instance = new IntegerExtractor(options, placeholder);
                 Instances.TryAdd(placeholder, instance);
             }
 

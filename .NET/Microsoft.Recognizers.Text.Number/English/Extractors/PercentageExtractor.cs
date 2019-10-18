@@ -19,7 +19,7 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected override ImmutableHashSet<Regex> InitRegexes()
         {
-            HashSet<string> regexStrs = new HashSet<string>
+            HashSet<string> regexStrings = new HashSet<string>
             {
                 NumbersDefinitions.NumberWithSuffixPercentage,
                 NumbersDefinitions.NumberWithPrefixPercentage,
@@ -27,11 +27,11 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             if ((Options & NumberOptions.PercentageMode) != 0)
             {
-                regexStrs.Add(NumbersDefinitions.FractionNumberWithSuffixPercentage);
-                regexStrs.Add(NumbersDefinitions.NumberWithPrepositionPercentage);
+                regexStrings.Add(NumbersDefinitions.FractionNumberWithSuffixPercentage);
+                regexStrings.Add(NumbersDefinitions.NumberWithPrepositionPercentage);
             }
 
-            return BuildRegexes(regexStrs);
+            return BuildRegexes(regexStrings);
         }
     }
 }

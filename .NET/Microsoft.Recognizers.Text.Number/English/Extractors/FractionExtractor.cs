@@ -11,11 +11,13 @@ namespace Microsoft.Recognizers.Text.Number.English
     {
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
-        private static readonly ConcurrentDictionary<(NumberMode, NumberOptions, string), FractionExtractor> Instances =
-            new ConcurrentDictionary<(NumberMode, NumberOptions, string), FractionExtractor>();
+        private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor> Instances =
+            new ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor>();
 
         private FractionExtractor(NumberMode mode, NumberOptions options)
+            : base(options)
         {
+
             Options = options;
 
             var regexes = new Dictionary<Regex, TypeTag>
@@ -58,15 +60,15 @@ namespace Microsoft.Recognizers.Text.Number.English
             Regexes = regexes.ToImmutableDictionary();
         }
 
-        internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
+        public sealed override NumberOptions Options { get; }
 
-        protected sealed override NumberOptions Options { get; }
+        internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_FRACTION; // "Fraction";
 
-        public static FractionExtractor GetInstance(NumberMode mode = NumberMode.Default, NumberOptions options = NumberOptions.None, string placeholder = "")
+        public static FractionExtractor GetInstance(NumberMode mode = NumberMode.Default, NumberOptions options = NumberOptions.None)
         {
-            var cacheKey = (mode, options, placeholder);
+            var cacheKey = (mode, options);
             if (!Instances.ContainsKey(cacheKey))
             {
                 var instance = new FractionExtractor(mode, options);

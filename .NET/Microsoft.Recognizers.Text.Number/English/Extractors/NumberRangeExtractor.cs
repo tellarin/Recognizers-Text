@@ -17,6 +17,7 @@ namespace Microsoft.Recognizers.Text.Number.English
                   new BaseNumberParser(new EnglishNumberParserConfiguration(config)),
                   config)
         {
+
             var regexes = new Dictionary<Regex, string>()
             {
                 {

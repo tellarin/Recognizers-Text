@@ -14,8 +14,10 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, DoubleExtractor> Instances =
             new ConcurrentDictionary<string, DoubleExtractor>();
 
-        private DoubleExtractor(string placeholder = NumbersDefinitions.PlaceHolderDefault)
+        private DoubleExtractor(NumberOptions options, string placeholder)
+            : base(options)
         {
+
             var regexes = new Dictionary<Regex, TypeTag>
             {
                 {
@@ -67,11 +69,12 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_DOUBLE; // "Double";
 
-        public static DoubleExtractor GetInstance(string placeholder = NumbersDefinitions.PlaceHolderDefault)
+        public static DoubleExtractor GetInstance(NumberOptions options,
+                                                  string placeholder = NumbersDefinitions.PlaceHolderDefault)
         {
             if (!Instances.ContainsKey(placeholder))
             {
-                var instance = new DoubleExtractor(placeholder);
+                var instance = new DoubleExtractor(options, placeholder);
                 Instances.TryAdd(placeholder, instance);
             }
 

@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-using Microsoft.Recognizers.Definitions;
 using Microsoft.Recognizers.Definitions.English;
 
 namespace Microsoft.Recognizers.Text.Number.English
@@ -15,7 +14,9 @@ namespace Microsoft.Recognizers.Text.Number.English
             new ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor>();
 
         private NumberExtractor(NumberMode mode, NumberOptions options)
+            : base(options)
         {
+
             NegativeNumberTermsRegex = new Regex(NumbersDefinitions.NegativeNumberTermsRegex + '$', RegexFlags);
 
             AmbiguousFractionConnectorsRegex = new Regex(NumbersDefinitions.AmbiguousFractionConnectorsRegex, RegexFlags);
@@ -31,12 +32,11 @@ namespace Microsoft.Recognizers.Text.Number.English
             switch (mode)
             {
                 case NumberMode.PureNumber:
-                    cardExtract = CardinalExtractor.GetInstance(NumbersDefinitions.PlaceHolderPureNumber);
+                    cardExtract = CardinalExtractor.GetInstance(options, NumbersDefinitions.PlaceHolderPureNumber);
                     break;
                 case NumberMode.Currency:
-                    builder.Add(
-                        BaseNumberExtractor.CurrencyRegex,
-                        RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX));
+                    builder.Add(BaseNumberExtractor.CurrencyRegex,
+                                RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX));
                     break;
                 case NumberMode.Unit:
                     break;
@@ -46,13 +46,13 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             if (cardExtract == null)
             {
-                cardExtract = CardinalExtractor.GetInstance();
+                cardExtract = CardinalExtractor.GetInstance(options);
             }
 
             builder.AddRange(cardExtract.Regexes);
 
             // Add Fraction
-            var fracExtract = FractionExtractor.GetInstance(mode, Options);
+            var fracExtract = FractionExtractor.GetInstance(mode, options);
             builder.AddRange(fracExtract.Regexes);
 
             Regexes = builder.ToImmutable();
@@ -71,11 +71,11 @@ namespace Microsoft.Recognizers.Text.Number.English
             AmbiguityFiltersDict = ambiguityBuilder.ToImmutable();
         }
 
+        public sealed override NumberOptions Options { get; }
+
         internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
         protected sealed override ImmutableDictionary<Regex, Regex> AmbiguityFiltersDict { get; }
-
-        protected sealed override NumberOptions Options { get; }
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM; // "Number";
 

@@ -66,11 +66,11 @@ namespace Microsoft.Recognizers.Text.Number.Spanish
             AmbiguityFiltersDict = ambiguityBuilder.ToImmutable();
         }
 
+        public sealed override NumberOptions Options { get; }
+
         internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
         protected sealed override ImmutableDictionary<Regex, Regex> AmbiguityFiltersDict { get; }
-
-        protected sealed override NumberOptions Options { get; }
 
         // "Number"
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM;

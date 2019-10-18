@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
@@ -18,13 +19,13 @@ namespace Microsoft.Recognizers.Text.Number
             Options = options;
         }
 
+        public virtual NumberOptions Options { get; } = NumberOptions.None;
+
         internal abstract ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
         protected virtual ImmutableDictionary<Regex, Regex> AmbiguityFiltersDict { get; } = null;
 
         protected virtual string ExtractType { get; } = string.Empty;
-
-        protected virtual NumberOptions Options { get; } = NumberOptions.None;
 
         protected virtual Regex NegativeNumberTermsRegex { get; } = null;
 
@@ -32,8 +33,12 @@ namespace Microsoft.Recognizers.Text.Number
 
         protected virtual Regex RelativeReferenceRegex { get; } = null;
 
+        // private
+
         public virtual List<ExtractResult> Extract(string source)
         {
+
+            Console.WriteLine(source + " " + this.GetType().Name + " " + this.Options);
 
             if (string.IsNullOrEmpty(source))
             {

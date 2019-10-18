@@ -32,7 +32,7 @@
             <summary>
             read the rules.
             </summary>
-            <param name="regexStrs">rule list.</param>
+            <param name="regexStrings">rule list.</param>
             <param name="ignoreCase">.</param>
             <returns>Immutable HashSet of regex.</returns>
         </member>
