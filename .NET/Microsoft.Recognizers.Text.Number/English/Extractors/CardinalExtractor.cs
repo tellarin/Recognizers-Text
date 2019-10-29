@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
@@ -11,9 +12,15 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, CardinalExtractor> Instances =
             new ConcurrentDictionary<string, CardinalExtractor>();
 
+        private static readonly Dictionary<string, List<ExtractResult>> ResultCache = new Dictionary<string, List<ExtractResult>>();
+
+        private readonly string placeholder;
+
         private CardinalExtractor(NumberOptions options, string placeholder)
             : base(options)
         {
+
+            this.placeholder = placeholder;
 
             var builder = ImmutableDictionary.CreateBuilder<Regex, TypeTag>();
 
@@ -43,6 +50,21 @@ namespace Microsoft.Recognizers.Text.Number.English
             }
 
             return Instances[placeholder];
+        }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+            var key = Options + "_" + placeholder + "_" + source;
+
+            var got = ResultCache.TryGetValue(key, out var val);
+
+            if (!got)
+            {
+                val = base.Extract(source);
+                ResultCache[key] = val;
+            }
+
+            return new List<ExtractResult>(val);
         }
     }
 }

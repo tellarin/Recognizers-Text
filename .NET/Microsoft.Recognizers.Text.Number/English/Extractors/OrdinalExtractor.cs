@@ -15,6 +15,8 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, OrdinalExtractor> Instances =
             new ConcurrentDictionary<string, OrdinalExtractor>();
 
+        private static readonly Dictionary<string, List<ExtractResult>> ResultCache = new Dictionary<string, List<ExtractResult>>();
+
         private OrdinalExtractor(NumberOptions options)
             : base(options)
         {
@@ -64,5 +66,21 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             return Instances[cacheKey];
         }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+            var key = Options + "_" + source;
+
+            List<ExtractResult> val = new List<ExtractResult>();
+
+            if (!ResultCache.TryGetValue(key, out val))
+            {
+                val = base.Extract(source);
+                ResultCache[key] = val;
+            }
+
+            return new List<ExtractResult>(val);
+        }
+
     }
 }

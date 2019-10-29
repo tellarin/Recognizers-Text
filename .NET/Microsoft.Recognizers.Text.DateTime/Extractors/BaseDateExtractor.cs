@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+
 using Microsoft.Recognizers.Text.Utilities;
 using DateObject = System.DateTime;
 
@@ -10,6 +12,8 @@ namespace Microsoft.Recognizers.Text.DateTime
     public class BaseDateExtractor : AbstractYearExtractor, IDateExtractor
     {
         public static readonly string ExtractorName = Constants.SYS_DATETIME_DATE; // "Date";
+
+        private ConcurrentDictionary<string, List<ExtractResult>> cache = new ConcurrentDictionary<string, List<ExtractResult>>();
 
         public BaseDateExtractor(IDateExtractorConfiguration config)
             : base(config)
@@ -36,13 +40,18 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         public override List<ExtractResult> Extract(string text, DateObject reference)
         {
-            var tokens = new List<Token>();
-            tokens.AddRange(BasicRegexMatch(text));
-            tokens.AddRange(ImplicitDate(text));
-            tokens.AddRange(NumberWithMonth(text, reference));
-            tokens.AddRange(ExtractRelativeDurationDate(text, reference));
+            string key = text;
 
-            return Token.MergeAllTokens(tokens, text, ExtractorName);
+            // List<ExtractResult> results;
+
+            if (!cache.TryGetValue(key, out List<ExtractResult> results))
+            {
+                results = ExtractImpl(text, reference);
+
+                cache[key] = results;
+            }
+
+            return new List<ExtractResult>(results);
         }
 
         // "In 3 days/weeks/months/years" = "3 days/weeks/months/years from now"
@@ -119,10 +128,25 @@ namespace Microsoft.Recognizers.Text.DateTime
             return er.Data != null && (er.Data.ToString() == Constants.MORE_THAN_MOD || er.Data.ToString() == Constants.LESS_THAN_MOD);
         }
 
+        private List<ExtractResult> ExtractImpl(string text, DateObject reference)
+        {
+            var tokens = new List<Token>();
+            tokens.AddRange(BasicRegexMatch(text));
+            tokens.AddRange(ImplicitDate(text));
+            tokens.AddRange(NumberWithMonth(text, reference));
+            tokens.AddRange(ExtractRelativeDurationDate(text, reference));
+
+            var results = Token.MergeAllTokens(tokens, text, ExtractorName);
+
+            return results;
+        }
+
         // match basic patterns in DateRegexList
         private List<Token> BasicRegexMatch(string text)
         {
-            var ret = new List<Token>();
+
+            var results = new List<Token>();
+
             foreach (var regex in this.Config.DateRegexList)
             {
                 var matches = regex.Matches(text);
@@ -136,18 +160,18 @@ namespace Microsoft.Recognizers.Text.DateTime
                         var relativeRegex = this.Config.StrictRelativeRegex.MatchEnd(preText, trim: true);
                         if (relativeRegex.Success)
                         {
-                            ret.Add(new Token(relativeRegex.Index, match.Index + match.Length));
+                            results.Add(new Token(relativeRegex.Index, match.Index + match.Length));
                         }
                         else
                         {
-                            ret.Add(new Token(match.Index, match.Index + match.Length));
+                            results.Add(new Token(match.Index, match.Index + match.Length));
                         }
 
                     }
                 }
             }
 
-            return ret;
+            return results;
         }
 
         // this method is to validate whether the match is part of date range and is a correct split

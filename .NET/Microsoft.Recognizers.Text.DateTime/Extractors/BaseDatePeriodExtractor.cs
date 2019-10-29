@@ -528,7 +528,9 @@ namespace Microsoft.Recognizers.Text.DateTime
                     {
                         Start = match.Index,
                         Length = match.Length,
+                        Text = text.Substring(match.Index, match.Length),
                     };
+
                     er.Add(nowEr);
 
                 }

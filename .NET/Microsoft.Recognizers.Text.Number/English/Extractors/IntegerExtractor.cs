@@ -14,9 +14,15 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, IntegerExtractor> Instances =
             new ConcurrentDictionary<string, IntegerExtractor>();
 
+        private static readonly Dictionary<string, List<ExtractResult>> ResultCache = new Dictionary<string, List<ExtractResult>>();
+
+        private readonly string placeholder;
+
         private IntegerExtractor(NumberOptions options, string placeholder)
             : base(options)
         {
+
+            this.placeholder = placeholder;
 
             var regexes = new Dictionary<Regex, TypeTag>
             {
@@ -77,5 +83,21 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             return Instances[placeholder];
         }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+            var key = Options + "_" + placeholder + "_" + source;
+
+            var got = ResultCache.TryGetValue(key, out var val);
+
+            if (!got)
+            {
+                val = base.Extract(source);
+                ResultCache[key] = val;
+            }
+
+            return val;
+        }
+
     }
 }

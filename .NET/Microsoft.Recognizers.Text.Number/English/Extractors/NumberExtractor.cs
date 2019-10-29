@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
@@ -13,9 +14,15 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor> Instances =
             new ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor>();
 
+        private static readonly Dictionary<string, List<ExtractResult>> ResultCache = new Dictionary<string, List<ExtractResult>>();
+
+        private readonly NumberMode mode;
+
         private NumberExtractor(NumberMode mode, NumberOptions options)
             : base(options)
         {
+
+            this.mode = mode;
 
             NegativeNumberTermsRegex = new Regex(NumbersDefinitions.NegativeNumberTermsRegex + '$', RegexFlags);
 
@@ -96,5 +103,21 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             return Instances[cacheKey];
         }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+            var key = Options + "_" + mode + "_" + source;
+
+            var got = ResultCache.TryGetValue(key, out var val);
+
+            if (!got)
+            {
+                val = base.Extract(source);
+                ResultCache[key] = val;
+            }
+
+            return val;
+        }
+
     }
 }

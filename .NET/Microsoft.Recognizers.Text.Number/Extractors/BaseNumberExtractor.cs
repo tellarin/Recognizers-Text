@@ -33,12 +33,8 @@ namespace Microsoft.Recognizers.Text.Number
 
         protected virtual Regex RelativeReferenceRegex { get; } = null;
 
-        // private
-
         public virtual List<ExtractResult> Extract(string source)
         {
-
-            Console.WriteLine(source + " " + this.GetType().Name + " " + this.Options);
 
             if (string.IsNullOrEmpty(source))
             {

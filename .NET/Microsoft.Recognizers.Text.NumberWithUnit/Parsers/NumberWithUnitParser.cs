@@ -49,7 +49,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
             else
             {
                 // If there is no unitResult, means there is just unit
-                numberResult = new ExtractResult { Start = -1, Length = 0 };
+                numberResult = new ExtractResult { Start = -1, Length = 0, Text = string.Empty };
             }
 
             // Key contains units
