@@ -109,6 +109,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                     {
                         var begin = ers[i].Start ?? 0;
                         var end = (ers[j].Start ?? 0) + (ers[j].Length ?? 0);
+
                         ret.Add(new Token(begin, end));
                     }
                     else if (this.config.CheckBothBeforeAfter)
@@ -117,6 +118,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                         inPrefix = false;
                         var afterStart = ers[j].Start + ers[j].Length ?? 0;
                         var afterStr = text.Substring(afterStart);
+
                         length = GetValidConnectorIndexForDateAndTimePeriod(afterStr, inPrefix);
                         if (length != Constants.INVALID_CONNECTOR_CODE && this.config.PrepositionRegex.IsExactMatch(middleStr, trim: true))
                         {

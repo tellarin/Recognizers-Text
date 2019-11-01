@@ -9,6 +9,7 @@ namespace Microsoft.Recognizers.Text.Number.English
 {
     public class FractionExtractor : BaseNumberExtractor
     {
+
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
         private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor> Instances =

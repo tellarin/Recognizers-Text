@@ -40,7 +40,7 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         public override List<ExtractResult> Extract(string text, DateObject reference)
         {
-            string key = text;
+            string key = text + "_" + reference;
 
             // List<ExtractResult> results;
 
