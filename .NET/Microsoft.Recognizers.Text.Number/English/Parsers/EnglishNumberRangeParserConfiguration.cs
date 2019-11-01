@@ -6,14 +6,15 @@ namespace Microsoft.Recognizers.Text.Number.English
 {
     public class EnglishNumberRangeParserConfiguration : INumberRangeParserConfiguration
     {
+
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
         public EnglishNumberRangeParserConfiguration(INumberOptionsConfiguration config)
         {
             CultureInfo = new CultureInfo(config.Culture);
 
-            NumberExtractor = English.NumberExtractor.GetInstance();
-            OrdinalExtractor = English.OrdinalExtractor.GetInstance();
+            NumberExtractor = English.NumberExtractor.GetInstance(NumberMode.Default, config.Options);
+            OrdinalExtractor = English.OrdinalExtractor.GetInstance(config.Options);
             NumberParser = new BaseNumberParser(new EnglishNumberParserConfiguration(config));
 
             MoreOrEqual = new Regex(NumbersDefinitions.MoreOrEqual, RegexFlags);

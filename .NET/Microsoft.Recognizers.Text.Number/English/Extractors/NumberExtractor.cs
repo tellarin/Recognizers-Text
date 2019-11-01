@@ -116,7 +116,7 @@ namespace Microsoft.Recognizers.Text.Number.English
                 ResultCache[key] = val;
             }
 
-            return val;
+            return new List<ExtractResult>(val);
         }
 
     }
