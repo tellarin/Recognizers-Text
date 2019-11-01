@@ -136,19 +136,28 @@ class BasePhoneNumberExtractor(SequenceExtractor):
     def extract(self, source: str):
         ret = []
         pre_check_phone_number_regex = re.compile(BasePhoneNumbers.PreCheckPhoneNumberRegex)
+        ssn_filter_regex = re.compile(BasePhoneNumbers.SSNFilterRegex)
+        colon_prefix_check_regex = re.compile(self.config.colon_prefix_check_regex)
+
         if (pre_check_phone_number_regex.search(source) is None):
             return ret
         extract_results = super().extract(source)
         format_indicator_regex = re.compile(
             BasePhoneNumbers.FormatIndicatorRegex, re.IGNORECASE | re.DOTALL)
         for er in extract_results:
-            if count_digits(er.text) < 7 and er.data != "ITPhoneNumber":
+            if (count_digits(er.text) < 7 and er.data != "ITPhoneNumber") or \
+                    ssn_filter_regex.search(er.text):
                 continue
             if er.start + er.length < len(source):
                 ch = source[er.start + er.length]
                 if ch in BasePhoneNumbers.ForbiddenSuffixMarkers:
                     continue
+
             ch = source[er.start - 1]
+            front = source[0: er.start - 1]
+            if self.config.false_positive_prefix_regex and re.compile(self.config.false_positive_prefix_regex).search(front):
+                continue
+
             if er.start != 0:
                 if ch in BasePhoneNumbers.BoundaryMarkers:
                     # Handle cases like "-1234567" and "-1234+5678"
@@ -157,7 +166,6 @@ class BasePhoneNumberExtractor(SequenceExtractor):
                             er.start >= 2:
                         ch_gap = source[er.start - 2]
                         if ch_gap.isdigit():
-                            front = source[0:er.start - 1]
                             international_dialing_prefix_regex = re.compile(
                                 BasePhoneNumbers.InternationDialingPrefixRegex)
                             match = international_dialing_prefix_regex.search(front)
@@ -175,8 +183,6 @@ class BasePhoneNumberExtractor(SequenceExtractor):
                 elif ch in self.config.forbidden_prefix_markers:
                     # Handle "tel:123456".
                     if ch in BasePhoneNumbers.ColonMarkers:
-                        front = source[0:er.start - 1]
-                        colon_prefix_check_regex = re.compile(self.config.colon_prefix_check_regex)
                         # If the char before ':' is not letter, ignore it.
                         if colon_prefix_check_regex.search(front) is None:
                             continue

@@ -35,6 +35,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
         public ParseResult Parse(ExtractResult extResult)
         {
             var ret = new ParseResult(extResult);
+
             ExtractResult numberResult;
 
             if (extResult.Data is ExtractResult unitResult)
