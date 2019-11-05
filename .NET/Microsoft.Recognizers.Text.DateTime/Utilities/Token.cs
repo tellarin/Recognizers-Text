@@ -112,5 +112,10 @@ namespace Microsoft.Recognizers.Text.DateTime
 
             return ret;
         }
+
+        public Token Clone()
+        {
+            return (Token)MemberwiseClone();
+        }
     }
 }

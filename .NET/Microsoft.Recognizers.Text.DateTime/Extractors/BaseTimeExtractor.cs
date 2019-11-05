@@ -20,7 +20,7 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private readonly ITimeExtractorConfiguration config;
 
-        private Dictionary<string, List<Token>> cache = new Dictionary<string, List<Token>>();
+        private Dictionary<string, List<Token>> resultsCache = new Dictionary<string, List<Token>>();
 
         public BaseTimeExtractor(ITimeExtractorConfiguration config)
         {
@@ -55,7 +55,7 @@ namespace Microsoft.Recognizers.Text.DateTime
 
             string key = text;
 
-            if (!cache.TryGetValue(key, out List<Token> results))
+            if (!resultsCache.TryGetValue(key, out List<Token> results))
             {
 
                 results = new List<Token>();
@@ -71,10 +71,10 @@ namespace Microsoft.Recognizers.Text.DateTime
 
                 }
 
-                cache[key] = results;
+                resultsCache[key] = results;
             }
 
-            return results;
+            return results.ConvertAll(e => e.Clone()); // @HERE
         }
 
         private List<Token> AtRegexMatch(string text)

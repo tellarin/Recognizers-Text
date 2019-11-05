@@ -108,15 +108,15 @@ namespace Microsoft.Recognizers.Text.Number.English
         {
             var key = Options + "_" + mode + "_" + source;
 
-            var got = ResultCache.TryGetValue(key, out var val);
+            var got = ResultCache.TryGetValue(key, out var results);
 
             if (!got)
             {
-                val = base.Extract(source);
-                ResultCache[key] = val;
+                results = base.Extract(source);
+                ResultCache[key] = results;
             }
 
-            return new List<ExtractResult>(val);
+            return results.ConvertAll(e => e.Clone()); // @HERE
         }
 
     }

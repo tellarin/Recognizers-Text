@@ -71,15 +71,13 @@ namespace Microsoft.Recognizers.Text.Number.English
         {
             var key = Options + "_" + source;
 
-            List<ExtractResult> val = new List<ExtractResult>();
-
-            if (!ResultCache.TryGetValue(key, out val))
+            if (!ResultCache.TryGetValue(key, out List<ExtractResult> results))
             {
-                val = base.Extract(source);
-                ResultCache[key] = val;
+                results = base.Extract(source);
+                ResultCache[key] = results;
             }
 
-            return new List<ExtractResult>(val);
+            return results.ConvertAll(e => e.Clone()); // @HERE
         }
 
     }

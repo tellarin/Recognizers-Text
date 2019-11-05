@@ -7,7 +7,7 @@ namespace Microsoft.Recognizers.Text
         List<ExtractResult> Extract(string input);
     }
 
-    public class ExtractResult
+    public class ExtractResult // : ICloneableType
     {
         public int? Start { get; set; } = null;
 
@@ -20,5 +20,11 @@ namespace Microsoft.Recognizers.Text
         public object Data { get; set; } = null;
 
         public Metadata Metadata { get; set; } = null;
+
+        public ExtractResult Clone()
+        {
+            return (ExtractResult)MemberwiseClone();
+        }
+
     }
 }

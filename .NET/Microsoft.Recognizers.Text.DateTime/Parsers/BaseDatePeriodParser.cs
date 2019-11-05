@@ -186,7 +186,7 @@ namespace Microsoft.Recognizers.Text.DateTime
         {
             DateObject beginDateResult = beginDate;
             DateObject endDateResult = endDate;
-            var isBusinessDay = timex.EndsWith(Constants.TimexBusinessDay);
+            var isBusinessDay = timex.EndsWith(Constants.TimexBusinessDay, StringComparison.Ordinal);
             var businessDayCount = 0;
             List<DateObject> dateList = null;
 

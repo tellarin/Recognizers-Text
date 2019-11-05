@@ -13,7 +13,7 @@ namespace Microsoft.Recognizers.Text.DateTime
     {
         public static readonly string ExtractorName = Constants.SYS_DATETIME_DATE; // "Date";
 
-        private ConcurrentDictionary<string, List<ExtractResult>> cache = new ConcurrentDictionary<string, List<ExtractResult>>();
+        private ConcurrentDictionary<string, List<ExtractResult>> resultsCache = new ConcurrentDictionary<string, List<ExtractResult>>();
 
         public BaseDateExtractor(IDateExtractorConfiguration config)
             : base(config)
@@ -44,14 +44,14 @@ namespace Microsoft.Recognizers.Text.DateTime
 
             // List<ExtractResult> results;
 
-            if (!cache.TryGetValue(key, out List<ExtractResult> results))
+            if (!resultsCache.TryGetValue(key, out List<ExtractResult> results))
             {
                 results = ExtractImpl(text, reference);
 
-                cache[key] = results;
+                resultsCache[key] = results;
             }
 
-            return new List<ExtractResult>(results);
+            return results.ConvertAll(e => e.Clone()); // @HERE
         }
 
         // "In 3 days/weeks/months/years" = "3 days/weeks/months/years from now"

@@ -123,7 +123,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         {
                             var offSet = lastIndex - bestMatch.Start;
                             var unitStr = source.Substring(bestMatch.Start, offSet);
-                            mappingPrefix.Add(number.Start.Value, new PrefixUnitResult { Offset = offSet, UnitStr = unitStr });
+                            mappingPrefix[number.Start.Value] = new PrefixUnitResult { Offset = offSet, UnitStr = unitStr };
                         }
                     }
 
@@ -142,7 +142,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                                 if (maxlen < endpos)
                                 {
                                     var midStr = source.Substring(firstIndex, m.Start - firstIndex);
-                                    if (string.IsNullOrWhiteSpace(midStr) || midStr.Trim().Equals(this.config.ConnectorToken))
+                                    if (string.IsNullOrWhiteSpace(midStr) || midStr.Trim().Equals(this.config.ConnectorToken, StringComparison.Ordinal))
                                     {
                                         maxlen = endpos;
                                     }
@@ -170,8 +170,9 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                             }
 
                             // Relative position will be used in Parser
-                            number.Start = start - er.Start;
-                            er.Data = number;
+                            var numberData = number.Clone();
+                            numberData.Start = start - er.Start; // @HERE <--
+                            er.Data = numberData;
 
                             // Special treatment, handle cases like '2:00 pm', '00 pm' is not dimension
                             var isNotUnit = false;
@@ -212,8 +213,10 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         };
 
                         // Relative position will be used in Parser
-                        number.Start = start - er.Start;
-                        er.Data = number;
+                        var numberData = number.Clone();
+                        numberData.Start = start - er.Start; // @HERE <--
+                        er.Data = numberData;
+
                         result.Add(er);
                     }
                 }

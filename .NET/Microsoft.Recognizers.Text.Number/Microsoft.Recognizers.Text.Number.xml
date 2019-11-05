@@ -100,6 +100,11 @@
             PercentageMode
             </summary>
         </member>
+        <member name="F:Microsoft.Recognizers.Text.Number.NumberOptions.ProtoCache">
+            <summary>
+            ProtoCache
+            </summary>
+        </member>
         <member name="F:Microsoft.Recognizers.Text.Number.NumberOptions.SuppressExtendedTypes">
             <summary>
             SuppressExtendedTypes, mode that skips extraction of extra types not in v1. May be removed later.

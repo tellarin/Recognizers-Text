@@ -11,8 +11,8 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
     {
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
-        private static readonly ConcurrentDictionary<(NumberMode, NumberOptions, string), FractionExtractor> Instances =
-            new ConcurrentDictionary<(NumberMode, NumberOptions, string), FractionExtractor>();
+        private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor> Instances =
+            new ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor>();
 
         private FractionExtractor(NumberMode mode, NumberOptions options)
         {
@@ -65,9 +65,9 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_FRACTION; // "Fraction";
 
-        public static FractionExtractor GetInstance(NumberMode mode = NumberMode.Default, NumberOptions options = NumberOptions.None, string placeholder = "")
+        public static FractionExtractor GetInstance(NumberMode mode = NumberMode.Default, NumberOptions options = NumberOptions.None)
         {
-            var cacheKey = (mode, options, placeholder);
+            var cacheKey = (mode, options);
             if (!Instances.ContainsKey(cacheKey))
             {
                 var instance = new FractionExtractor(mode, options);
