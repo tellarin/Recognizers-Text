@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions.English;
+using Microsoft.Recognizers.Text.InternalCache;
 
 namespace Microsoft.Recognizers.Text.Number.English
 {
@@ -15,7 +16,7 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, OrdinalExtractor> Instances =
             new ConcurrentDictionary<string, OrdinalExtractor>();
 
-        private static readonly Dictionary<string, List<ExtractResult>> ResultCache = new Dictionary<string, List<ExtractResult>>();
+        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
         private OrdinalExtractor(NumberOptions options)
             : base(options)
@@ -71,13 +72,7 @@ namespace Microsoft.Recognizers.Text.Number.English
         {
             var key = Options + "_" + source;
 
-            if (!ResultCache.TryGetValue(key, out List<ExtractResult> results))
-            {
-                results = base.Extract(source);
-                ResultCache[key] = results;
-            }
-
-            return results.ConvertAll(e => e.Clone()); // @HERE
+            return ResultsCache.GetOrCreate(key, () => base.Extract(source));
         }
 
     }

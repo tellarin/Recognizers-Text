@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
 using Microsoft.Recognizers.Definitions;
+using Microsoft.Recognizers.Text.InternalCache;
+
 using DateObject = System.DateTime;
 
 namespace Microsoft.Recognizers.Text.DateTime
@@ -20,7 +23,7 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private readonly ITimeExtractorConfiguration config;
 
-        private Dictionary<string, List<Token>> resultsCache = new Dictionary<string, List<Token>>();
+        private readonly ResultsCache<Token> resultsCache = new ResultsCache<Token>();
 
         public BaseTimeExtractor(ITimeExtractorConfiguration config)
         {
@@ -55,26 +58,26 @@ namespace Microsoft.Recognizers.Text.DateTime
 
             string key = text;
 
-            if (!resultsCache.TryGetValue(key, out List<Token> results))
+            return resultsCache.GetOrCreate(key, () => BasicRegexMatchImpl(text));
+        }
+
+        private List<Token> BasicRegexMatchImpl(string text)
+        {
+
+            var results = new List<Token>();
+
+            foreach (var regex in this.config.TimeRegexList)
             {
+                var matches = regex.Matches(text);
 
-                results = new List<Token>();
-
-                foreach (var regex in this.config.TimeRegexList)
+                foreach (Match match in matches)
                 {
-                    var matches = regex.Matches(text);
-
-                    foreach (Match match in matches)
-                    {
-                        results.Add(new Token(match.Index, match.Index + match.Length));
-                    }
-
+                    results.Add(new Token(match.Index, match.Index + match.Length));
                 }
 
-                resultsCache[key] = results;
             }
 
-            return results.ConvertAll(e => e.Clone()); // @HERE
+            return results;
         }
 
         private List<Token> AtRegexMatch(string text)

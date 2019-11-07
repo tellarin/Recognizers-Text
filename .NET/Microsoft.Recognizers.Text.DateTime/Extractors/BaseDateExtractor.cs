@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
+using Microsoft.Recognizers.Text.InternalCache;
 using Microsoft.Recognizers.Text.Utilities;
 using DateObject = System.DateTime;
 
@@ -13,7 +13,7 @@ namespace Microsoft.Recognizers.Text.DateTime
     {
         public static readonly string ExtractorName = Constants.SYS_DATETIME_DATE; // "Date";
 
-        private ConcurrentDictionary<string, List<ExtractResult>> resultsCache = new ConcurrentDictionary<string, List<ExtractResult>>();
+        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
 
         public BaseDateExtractor(IDateExtractorConfiguration config)
             : base(config)
@@ -42,16 +42,7 @@ namespace Microsoft.Recognizers.Text.DateTime
         {
             string key = text + "_" + reference;
 
-            // List<ExtractResult> results;
-
-            if (!resultsCache.TryGetValue(key, out List<ExtractResult> results))
-            {
-                results = ExtractImpl(text, reference);
-
-                resultsCache[key] = results;
-            }
-
-            return results.ConvertAll(e => e.Clone()); // @HERE
+            return resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
         }
 
         // "In 3 days/weeks/months/years" = "3 days/weeks/months/years from now"

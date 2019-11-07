@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Recognizers.Text.InternalCache;
+
 namespace Microsoft.Recognizers.Text
 {
     public interface IExtractor
@@ -7,7 +9,7 @@ namespace Microsoft.Recognizers.Text
         List<ExtractResult> Extract(string input);
     }
 
-    public class ExtractResult // : ICloneableType
+    public class ExtractResult : ICloneableType<ExtractResult>
     {
         public int? Start { get; set; } = null;
 
