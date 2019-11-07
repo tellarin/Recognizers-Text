@@ -53,6 +53,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
 
         public List<ExtractResult> Extract(string source)
         {
+
             var result = new List<ExtractResult>();
 
             if (!PreCheckStr(source))
@@ -170,9 +171,8 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                             }
 
                             // Relative position will be used in Parser
-                            var numberData = number.Clone();
-                            numberData.Start = start - er.Start; // @HERE <--
-                            er.Data = numberData;
+                            number.Start = start - er.Start;
+                            er.Data = number;
 
                             // Special treatment, handle cases like '2:00 pm', '00 pm' is not dimension
                             var isNotUnit = false;
@@ -213,9 +213,8 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         };
 
                         // Relative position will be used in Parser
-                        var numberData = number.Clone();
-                        numberData.Start = start - er.Start; // @HERE <--
-                        er.Data = numberData;
+                        number.Start = start - er.Start;
+                        er.Data = number;
 
                         result.Add(er);
                     }
@@ -247,6 +246,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
             {
                 int start = numDependResult.Start.Value;
                 int i = 0;
+
                 do
                 {
                     matchResult[start + i++] = true;

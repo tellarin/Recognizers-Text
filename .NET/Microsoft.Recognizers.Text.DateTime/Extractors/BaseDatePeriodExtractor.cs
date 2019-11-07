@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
+using Microsoft.Recognizers.Text.InternalCache;
 using Microsoft.Recognizers.Text.Utilities;
 using DateObject = System.DateTime;
 
@@ -11,6 +13,8 @@ namespace Microsoft.Recognizers.Text.DateTime
         private const string ExtractorName = Constants.SYS_DATETIME_DATEPERIOD;
 
         private readonly IDatePeriodExtractorConfiguration config;
+
+        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
 
         public BaseDatePeriodExtractor(IDatePeriodExtractorConfiguration config)
         {
@@ -24,20 +28,9 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         public List<ExtractResult> Extract(string text, DateObject reference)
         {
-            var tokens = new List<Token>();
-            tokens.AddRange(MatchSimpleCases(text));
+            string key = text + "_" + reference;
 
-            var simpleCasesResults = Token.MergeAllTokens(tokens, text, ExtractorName);
-            var ordinalExtractions = config.OrdinalExtractor.Extract(text);
-
-            tokens.AddRange(MergeTwoTimePoints(text, reference));
-            tokens.AddRange(MatchDuration(text, reference));
-            tokens.AddRange(SingleTimePointWithPatterns(text, new List<ExtractResult>(ordinalExtractions), reference));
-            tokens.AddRange(MatchComplexCases(text, simpleCasesResults, reference));
-            tokens.AddRange(MatchYearPeriod(text, reference));
-            tokens.AddRange(MatchOrdinalNumberWithCenturySuffix(text, new List<ExtractResult>(ordinalExtractions)));
-
-            return Token.MergeAllTokens(tokens, text, ExtractorName);
+            return resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
         }
 
         public List<Token> MatchDuration(string text, DateObject reference)
@@ -316,6 +309,24 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
 
             return hasDigitNumberAfterDash;
+        }
+
+        private List<ExtractResult> ExtractImpl(string text, DateObject reference)
+        {
+            var tokens = new List<Token>();
+            tokens.AddRange(MatchSimpleCases(text));
+
+            var simpleCasesResults = Token.MergeAllTokens(tokens, text, ExtractorName);
+            var ordinalExtractions = config.OrdinalExtractor.Extract(text);
+
+            tokens.AddRange(MergeTwoTimePoints(text, reference));
+            tokens.AddRange(MatchDuration(text, reference));
+            tokens.AddRange(SingleTimePointWithPatterns(text, new List<ExtractResult>(ordinalExtractions), reference));
+            tokens.AddRange(MatchComplexCases(text, simpleCasesResults, reference));
+            tokens.AddRange(MatchYearPeriod(text, reference));
+            tokens.AddRange(MatchOrdinalNumberWithCenturySuffix(text, new List<ExtractResult>(ordinalExtractions)));
+
+            return Token.MergeAllTokens(tokens, text, ExtractorName);
         }
 
         // Cases like "21st century"

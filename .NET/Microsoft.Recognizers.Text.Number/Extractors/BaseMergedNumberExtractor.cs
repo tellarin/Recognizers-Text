@@ -72,9 +72,7 @@ namespace Microsoft.Recognizers.Text.Number
                 if (idx == 0 || groups[idx] != groups[idx - 1])
                 {
 
-                    // var tmpExtractResult = ers[idx]; // @HERE
-
-                    var tmpExtractResult = ers[idx].Clone(); // @HERE
+                    var tmpExtractResult = ers[idx];
 
                     tmpExtractResult.Data = new List<ExtractResult>
                     {

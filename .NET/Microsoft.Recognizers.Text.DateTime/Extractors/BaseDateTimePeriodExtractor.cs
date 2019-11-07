@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using Microsoft.Recognizers.Text.Utilities;
 using DateObject = System.DateTime;
 
@@ -103,8 +104,7 @@ namespace Microsoft.Recognizers.Text.DateTime
 
                     var middleStr = text.Substring(middleBegin, middleEnd - middleBegin).Trim();
 
-                    bool inPrefix = true;
-                    int length = GetValidConnectorIndexForDateAndTimePeriod(middleStr, inPrefix);
+                    int length = GetValidConnectorIndexForDateAndTimePeriod(middleStr, inPrefix: true);
                     if (length != Constants.INVALID_CONNECTOR_CODE)
                     {
                         var begin = ers[i].Start ?? 0;
@@ -115,11 +115,10 @@ namespace Microsoft.Recognizers.Text.DateTime
                     else if (this.config.CheckBothBeforeAfter)
                     {
                         // Check also afterStr
-                        inPrefix = false;
                         var afterStart = ers[j].Start + ers[j].Length ?? 0;
                         var afterStr = text.Substring(afterStart);
 
-                        length = GetValidConnectorIndexForDateAndTimePeriod(afterStr, inPrefix);
+                        length = GetValidConnectorIndexForDateAndTimePeriod(afterStr, inPrefix: false);
                         if (length != Constants.INVALID_CONNECTOR_CODE && this.config.PrepositionRegex.IsExactMatch(middleStr, trim: true))
                         {
                             var begin = ers[i].Start ?? 0;

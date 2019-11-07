@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
+using Microsoft.Recognizers.Text.InternalCache;
 using Microsoft.Recognizers.Text.Utilities;
 using DateObject = System.DateTime;
 
@@ -11,6 +13,8 @@ namespace Microsoft.Recognizers.Text.DateTime
         public static readonly string ExtractorName = Constants.SYS_DATETIME_TIMEPERIOD; // "TimePeriod";
 
         private readonly ITimePeriodExtractorConfiguration config;
+
+        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
 
         public BaseTimePeriodExtractor(ITimePeriodExtractorConfiguration config)
         {
@@ -23,6 +27,13 @@ namespace Microsoft.Recognizers.Text.DateTime
         }
 
         public List<ExtractResult> Extract(string text, DateObject reference)
+        {
+            string key = text + "_" + reference;
+
+            return resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+        }
+
+        private List<ExtractResult> ExtractImpl(string text, DateObject reference)
         {
             var tokens = new List<Token>();
             tokens.AddRange(MatchSimpleCases(text));
