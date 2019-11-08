@@ -98,7 +98,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
             {
                 if (idx == 0 || groups[idx] != groups[idx - 1])
                 {
-                    var tmpExtractResult = ers[idx];
+                    var tmpExtractResult = ers[idx].Clone();
 
                     tmpExtractResult.Data = new List<ExtractResult>
                     {

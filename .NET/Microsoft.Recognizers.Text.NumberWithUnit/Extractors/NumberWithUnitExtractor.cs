@@ -171,8 +171,9 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                             }
 
                             // Relative position will be used in Parser
-                            number.Start = start - er.Start;
-                            er.Data = number;
+                            var numberData = number.Clone();
+                            numberData.Start = start - er.Start;
+                            er.Data = numberData;
 
                             // Special treatment, handle cases like '2:00 pm', '00 pm' is not dimension
                             var isNotUnit = false;
@@ -213,8 +214,9 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         };
 
                         // Relative position will be used in Parser
-                        number.Start = start - er.Start;
-                        er.Data = number;
+                        var numberData = number.Clone();
+                        numberData.Start = start - er.Start;
+                        er.Data = numberData;
 
                         result.Add(er);
                     }
