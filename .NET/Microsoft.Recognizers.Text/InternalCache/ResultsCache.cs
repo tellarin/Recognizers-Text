@@ -8,8 +8,8 @@ namespace Microsoft.Recognizers.Text.InternalCache
         where TItem : ICloneableType<TItem>
     {
 
+        // private readonly ConcurrentDictionary<string, List<TItem>> resultsCache = new ConcurrentDictionary<string, List<TItem>>();
         private readonly ConcurrentDictionary<string, List<TItem>> resultsCache = new ConcurrentDictionary<string, List<TItem>>();
-
         public List<TItem> GetOrCreate(string key, Func<List<TItem>> createItem)
         {
             if (!resultsCache.TryGetValue(key, out List<TItem> results))
