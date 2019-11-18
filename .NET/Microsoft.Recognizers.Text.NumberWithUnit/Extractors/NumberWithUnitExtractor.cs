@@ -67,10 +67,10 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
             var unitIsPrefix = new List<bool>();
 
             MatchCollection nonUnitMatches = null;
-            var prefixMatch = prefixMatcher.Find(source).OrderBy(o => o.Start).ToList();
-            var suffixMatch = suffixMatcher.Find(source).OrderBy(o => o.Start).ToList();
+            var prefixMatches = prefixMatcher.Find(source).OrderBy(o => o.Start).ToList();
+            var suffixMatches = suffixMatcher.Find(source).OrderBy(o => o.Start).ToList();
 
-            if (prefixMatch.Count > 0 || suffixMatch.Count > 0)
+            if (prefixMatches.Count > 0 || suffixMatches.Count > 0)
             {
                 var numbers = this.config.UnitNumExtractor.Extract(source).OrderBy(o => o.Start);
 
@@ -108,7 +108,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         var lastIndex = start;
                         MatchResult<string> bestMatch = null;
 
-                        foreach (var m in prefixMatch)
+                        foreach (var m in prefixMatches)
                         {
                             if (m.Length > 0 && m.End > start)
                             {
@@ -152,16 +152,9 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         };
 
                         // Relative position will be used in Parser
-                        number.Start = start - er.Start;
-                        er.Data = new ExtractResult
-                        {
-                            Data = number.Data,
-                            Length = number.Length,
-                            Metadata = number.Metadata,
-                            Start = number.Start,
-                            Text = number.Text,
-                            Type = number.Type,
-                        };
+                        var numberData = number.Clone();
+                        numberData.Start = start - er.Start;
+                        er.Data = numberData;
 
                         result.Add(er);
                         unitIsPrefix.Add(true);
@@ -179,7 +172,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         var maxlen = 0;
                         var firstIndex = start + length;
 
-                        foreach (var m in suffixMatch)
+                        foreach (var m in suffixMatches)
                         {
                             if (m.Length > 0 && m.Start >= firstIndex)
                             {
@@ -198,6 +191,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
                         if (maxlen != 0)
                         {
                             var substr = source.Substring(start, length + maxlen);
+
                             var er = new ExtractResult
                             {
                                 Start = start,
@@ -284,7 +278,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
 
             if (CheckExtractorType(Constants.SYS_UNIT_CURRENCY))
             {
-                result = SelectCandidate(source, result, unitIsPrefix);
+                result = SelectCandidates(source, result, unitIsPrefix);
             }
 
             return result;
@@ -488,7 +482,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit
             return this.config.ExtractType.Equals(extractorType, StringComparison.Ordinal);
         }
 
-        private List<ExtractResult> SelectCandidate(string source, List<ExtractResult> extractResults, List<bool> unitIsPrefix)
+        private List<ExtractResult> SelectCandidates(string source, List<ExtractResult> extractResults, List<bool> unitIsPrefix)
         {
             int totalCandidate = unitIsPrefix.Count;
             bool haveConflict = false;
