@@ -13,8 +13,8 @@ namespace Microsoft.Recognizers.Text.Number.Turkish
         {
             CultureInfo = new CultureInfo(config.Culture);
 
-            NumberExtractor = English.NumberExtractor.GetInstance(NumberMode.Default, config.Options);
-            OrdinalExtractor = English.OrdinalExtractor.GetInstance(config.Options);
+            NumberExtractor = Turkish.NumberExtractor.GetInstance(NumberMode.Default, config.Options);
+            OrdinalExtractor = Turkish.OrdinalExtractor.GetInstance(config.Options);
             NumberParser = new BaseNumberParser(new TurkishNumberParserConfiguration(config));
 
             MoreOrEqual = new Regex(NumbersDefinitions.MoreOrEqual, RegexFlags);

@@ -12,10 +12,10 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public NumberRangeExtractor(INumberOptionsConfiguration config)
             : base(
-                  NumberExtractor.GetInstance(),
-                  OrdinalExtractor.GetInstance(),
-                  new BaseNumberParser(new EnglishNumberParserConfiguration(config)),
-                  config)
+                   NumberExtractor.GetInstance(),
+                   OrdinalExtractor.GetInstance(),
+                   new BaseNumberParser(new EnglishNumberParserConfiguration(config)),
+                   config)
         {
 
             var regexes = new Dictionary<Regex, string>()
