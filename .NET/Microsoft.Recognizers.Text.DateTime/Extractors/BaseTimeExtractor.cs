@@ -23,7 +23,7 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private readonly ITimeExtractorConfiguration config;
 
-        private readonly ResultsCache<Token> resultsCache = new ResultsCache<Token>();
+        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
 
         public BaseTimeExtractor(ITimeExtractorConfiguration config)
         {
@@ -36,6 +36,25 @@ namespace Microsoft.Recognizers.Text.DateTime
         }
 
         public virtual List<ExtractResult> Extract(string text, DateObject reference)
+        {
+
+            List<ExtractResult> results;
+
+            if ((this.config.Options & DateTimeOptions.NoProtoCache) != 0)
+            {
+                results = ExtractImpl(text, reference);
+            }
+            else
+            {
+                string key = text + "_" + reference;
+
+                results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+            }
+
+            return results;
+        }
+
+        public virtual List<ExtractResult> ExtractImpl(string text, DateObject reference)
         {
             var tokens = new List<Token>();
             tokens.AddRange(BasicRegexMatch(text));
@@ -55,15 +74,6 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private List<Token> BasicRegexMatch(string text)
         {
-
-            string key = text;
-
-            return resultsCache.GetOrCreate(key, () => BasicRegexMatchImpl(text));
-        }
-
-        private List<Token> BasicRegexMatchImpl(string text)
-        {
-
             var results = new List<Token>();
 
             foreach (var regex in this.config.TimeRegexList)

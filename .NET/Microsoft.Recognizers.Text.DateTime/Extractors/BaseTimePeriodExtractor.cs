@@ -28,9 +28,20 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         public List<ExtractResult> Extract(string text, DateObject reference)
         {
-            string key = text + "_" + reference;
+            List<ExtractResult> results;
 
-            return resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+            if ((this.config.Options & DateTimeOptions.NoProtoCache) != 0)
+            {
+                results = ExtractImpl(text, reference);
+            }
+            else
+            {
+                string key = text + "_" + reference;
+
+                results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+            }
+
+            return results;
         }
 
         private List<ExtractResult> ExtractImpl(string text, DateObject reference)

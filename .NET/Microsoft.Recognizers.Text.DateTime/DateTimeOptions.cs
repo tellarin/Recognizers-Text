@@ -31,9 +31,9 @@ namespace Microsoft.Recognizers.Text.DateTime
         ExtendedTypes = 8,
 
         /// <summary>
-        /// ProtoCache
+        /// NoProtoCache
         /// </summary>
-        ProtoCache = 16,
+        NoProtoCache = 16,
 
         /// <summary>
         /// FailFast, mode that aborts extraction/tagging quickly for non-entity cases. May be removed later.

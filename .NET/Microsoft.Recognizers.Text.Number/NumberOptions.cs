@@ -16,9 +16,9 @@ namespace Microsoft.Recognizers.Text.Number
         PercentageMode = 1,
 
         /// <summary>
-        /// ProtoCache
+        /// NoProtoCache
         /// </summary>
-        ProtoCache = 16,
+        NoProtoCache = 16,
 
         /// <summary>
         /// SuppressExtendedTypes, mode that skips extraction of extra types not in v1. May be removed later.

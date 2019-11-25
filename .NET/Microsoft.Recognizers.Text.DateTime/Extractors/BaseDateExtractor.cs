@@ -40,9 +40,21 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         public override List<ExtractResult> Extract(string text, DateObject reference)
         {
-            string key = text + "_" + reference;
 
-            return resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+            List<ExtractResult> results;
+
+            if ((this.Config.Options & DateTimeOptions.NoProtoCache) != 0)
+            {
+                results = ExtractImpl(text, reference);
+            }
+            else
+            {
+                string key = text + "_" + reference;
+
+                results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+            }
+
+            return results;
         }
 
         // "In 3 days/weeks/months/years" = "3 days/weeks/months/years from now"
@@ -147,6 +159,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                         // Cases that the relative term is before the detected date entity, like "this 5/12", "next friday 5/12"
                         var preText = text.Substring(0, match.Index);
                         var relativeRegex = this.Config.StrictRelativeRegex.MatchEnd(preText, trim: true);
+
                         if (relativeRegex.Success)
                         {
                             results.Add(new Token(relativeRegex.Index, match.Index + match.Length));
@@ -175,7 +188,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                 var yearGroup = match.Groups["year"];
 
                 // If the "year" part is not at the end of the match, it's a valid match
-                if (!(yearGroup.Index + yearGroup.Length == match.Index + match.Length))
+                if (yearGroup.Index + yearGroup.Length != match.Index + match.Length)
                 {
                     isValidMatch = true;
                 }
@@ -202,7 +215,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             return isValidMatch;
         }
 
-        // TODO: Simplify this method to improve the performance
+        // TODO: Simplify this method to improve its performance
         private string TrimStartRangeConnectorSymbols(string text)
         {
             var rangeConnectorSymbolMatches = Config.RangeConnectorSymbolRegex.Matches(text);
@@ -225,7 +238,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             return text.Trim();
         }
 
-        // TODO: Simplify this method to improve the performance
+        // TODO: Simplify this method to improve its performance
         private bool StartsWithBasicDate(string text)
         {
             foreach (var regex in this.Config.DateRegexList)

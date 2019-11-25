@@ -55,9 +55,21 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public override List<ExtractResult> Extract(string source)
         {
-            var key = Options + "_" + placeholder + "_" + source;
 
-            return ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            List<ExtractResult> results;
+
+            if ((this.Options & NumberOptions.NoProtoCache) != 0)
+            {
+                results = base.Extract(source);
+            }
+            else
+            {
+                string key = Options + "_" + placeholder + "_" + source;
+
+                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            }
+
+            return results;
         }
     }
 }

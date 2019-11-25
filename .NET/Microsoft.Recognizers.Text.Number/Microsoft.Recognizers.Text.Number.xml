@@ -100,9 +100,9 @@
             PercentageMode
             </summary>
         </member>
-        <member name="F:Microsoft.Recognizers.Text.Number.NumberOptions.ProtoCache">
+        <member name="F:Microsoft.Recognizers.Text.Number.NumberOptions.NoProtoCache">
             <summary>
-            ProtoCache
+            NoProtoCache
             </summary>
         </member>
         <member name="F:Microsoft.Recognizers.Text.Number.NumberOptions.SuppressExtendedTypes">

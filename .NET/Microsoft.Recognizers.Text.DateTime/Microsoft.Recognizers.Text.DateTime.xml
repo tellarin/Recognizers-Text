@@ -79,9 +79,9 @@
             ExtendedTypes
             </summary>
         </member>
-        <member name="F:Microsoft.Recognizers.Text.DateTime.DateTimeOptions.ProtoCache">
+        <member name="F:Microsoft.Recognizers.Text.DateTime.DateTimeOptions.NoProtoCache">
             <summary>
-            ProtoCache
+            NoProtoCache
             </summary>
         </member>
         <member name="F:Microsoft.Recognizers.Text.DateTime.DateTimeOptions.FailFast">

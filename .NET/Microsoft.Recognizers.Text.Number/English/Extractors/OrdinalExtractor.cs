@@ -70,9 +70,20 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public override List<ExtractResult> Extract(string source)
         {
-            var key = Options + "_" + source;
+            List<ExtractResult> results;
 
-            return ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            if ((this.Options & NumberOptions.NoProtoCache) != 0)
+            {
+                results = base.Extract(source);
+            }
+            else
+            {
+                string key = Options + "_" + source;
+
+                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            }
+
+            return results;
         }
 
     }
