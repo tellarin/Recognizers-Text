@@ -12,8 +12,8 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public NumberRangeExtractor(INumberOptionsConfiguration config)
             : base(
-                   NumberExtractor.GetInstance(NumberMode.Default, config.Options),
-                   OrdinalExtractor.GetInstance(config.Options),
+                   NumberExtractor.GetInstance(),
+                   OrdinalExtractor.GetInstance(),
                    new BaseNumberParser(new EnglishNumberParserConfiguration(config)),
                    config)
         {
