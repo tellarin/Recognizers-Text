@@ -95,7 +95,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             }
             else
             {
-                string key = Options + "_" + placeholder + "_" + source;
+                var key = (Options, placeholder, source);
 
                 results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
             }

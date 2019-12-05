@@ -607,7 +607,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                     }
 
                     var pr = this.config.DateParser.Parse(er, referenceDate);
-                    var durationExtractionResult = this.config.DurationExtractor.Extract(er.Text).FirstOrDefault();
+                    var durationExtractionResult = this.config.DurationExtractor.Extract(er.Text, referenceDate).FirstOrDefault();
 
                     if (durationExtractionResult != null)
                     {

@@ -78,7 +78,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             }
             else
             {
-                string key = Options + "_" + source;
+                var key = (Options, source);
 
                 results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
             }

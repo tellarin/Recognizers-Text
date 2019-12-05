@@ -49,7 +49,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                string key = text + "_" + reference;
+                var key = (text, reference);
 
                 results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }
@@ -281,9 +281,9 @@ namespace Microsoft.Recognizers.Text.DateTime
 
             foreach (var result in er)
             {
-                int.TryParse((this.Config.NumberParser.Parse(result).Value ?? 0).ToString(), out int num);
+                var parsed = int.TryParse((this.Config.NumberParser.Parse(result).Value ?? 0).ToString(), out int num);
 
-                if (num < 1 || num > 31)
+                if (!parsed || (num < 1 || num > 31))
                 {
                     continue;
                 }

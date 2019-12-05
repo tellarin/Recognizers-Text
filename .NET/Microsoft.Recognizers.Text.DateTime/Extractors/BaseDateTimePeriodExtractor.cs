@@ -384,7 +384,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                         List<string> tokenListBeforeDate = config.TokenBeforeDate.Split('|').ToList();
                         foreach (string token in tokenListBeforeDate.Where(n => !string.IsNullOrEmpty(n)))
                         {
-                            if (midStr.Trim().Equals(token))
+                            if (midStr.Trim().Equals(token, StringComparison.OrdinalIgnoreCase))
                             {
                                 isMatchTokenBeforeDate = true;
                                 break;
@@ -396,7 +396,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                     {
                         // Extend date extraction for cases like "Monday evening next week"
                         var extendedStr = points[idx].Text + text.Substring((int)(points[idx + 1].Start + points[idx + 1].Length));
-                        var extendedDateEr = config.SingleDateExtractor.Extract(extendedStr).FirstOrDefault();
+                        var extendedDateEr = config.SingleDateExtractor.Extract(extendedStr, reference).FirstOrDefault();
                         var offset = 0;
                         if (extendedDateEr != null && extendedDateEr.Start == 0 && !this.config.CheckBothBeforeAfter)
                         {
@@ -521,7 +521,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                     var beforeStr = text.Substring(0, e.Start);
                     if (!string.IsNullOrEmpty(beforeStr))
                     {
-                        var timeErs = this.config.TimePeriodExtractor.Extract(beforeStr);
+                        var timeErs = this.config.TimePeriodExtractor.Extract(beforeStr, reference);
                         if (timeErs.Count > 0)
                         {
                             foreach (var tp in timeErs)
@@ -542,7 +542,7 @@ namespace Microsoft.Recognizers.Text.DateTime
                     var afterStr = text.Substring(e.Start + e.Length);
                     if (!string.IsNullOrEmpty(afterStr))
                     {
-                        var timeErs = this.config.TimePeriodExtractor.Extract(afterStr);
+                        var timeErs = this.config.TimePeriodExtractor.Extract(afterStr, reference);
                         if (timeErs.Count > 0)
                         {
                             foreach (var tp in timeErs)
