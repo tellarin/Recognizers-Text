@@ -1,9 +1,92 @@
 [
   {
-    "Input": "I'll be out 5 to 6pm",
+    "Input": "मैं शाम 5 से 6 बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
+    "Results": [
+      {
+        "Text": "शाम 5 से 6 ",
+        "Type": "timerange",
+        "Value": {
+          "Timex": "(T17,T18,PT1H)",
+          "FutureResolution": {
+            "startTime": "17:00:00",
+            "endTime": "18:00:00"
+          },
+          "PastResolution": {
+            "startTime": "17:00:00",
+            "endTime": "18:00:00"
+          }
+        },
+        "Start": 4,
+        "Length": 11
+      }
+    ]
+  },
+  {
+    "Input": "मैं प्रातः 5 से सात तक बाहर रहुंगा",
+    "Context": {
+      "ReferenceDateTime": "2016-11-07T16:12:00"
+    },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
+    "Results": [
+      {
+        "Text": "प्रातः 5 से सात तक",
+        "Type": "timerange",
+        "Value": {
+          "Timex": "(T05,T07,PT2H)",
+          "FutureResolution": {
+            "startTime": "05:00:00",
+            "endTime": "07:00:00"
+          },
+          "PastResolution": {
+            "startTime": "05:00:00",
+            "endTime": "07:00:00"
+          }
+        },
+        "Start": 4,
+        "Length": 18
+      }
+    ]
+  },
+  {
+    "Input": "मैं संध्या 5 से 6 तक बाहर रहुंगा",
+    "Context": {
+      "ReferenceDateTime": "2016-11-07T16:12:00"
+    },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
+    "Results": [
+      {
+        "Text": "संध्या 5 से 6 तक",
+        "Type": "timerange",
+        "Value": {
+          "Timex": "(T17,T18,PT1H)",
+          "FutureResolution": {
+            "startTime": "17:00:00",
+            "endTime": "18:00:00"
+          },
+          "PastResolution": {
+            "startTime": "17:00:00",
+            "endTime": "18:00:00"
+          }
+        },
+        "Start": 4,
+        "Length": 16
+      }
+    ]
+  },
+  {
+    "Input": "मैं 5 to 6pm के बीच बाहर रहुंगा",
+    "Context": {
+      "ReferenceDateTime": "2016-11-07T16:12:00"
+    },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
         "Text": "5 to 6pm",
@@ -19,19 +102,21 @@
             "endTime": "18:00:00"
           }
         },
-        "Start": 12,
+        "Start": 4,
         "Length": 8
       }
     ]
   },
   {
-    "Input": "I'll be out 5 to 6 p.m",
+    "Input": "मैं शाम 5 और 6 के बीच बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "5 to 6 p.m",
+        "Text": "शाम 5 और 6 के बीच",
         "Type": "timerange",
         "Value": {
           "Timex": "(T17,T18,PT1H)",
@@ -44,94 +129,21 @@
             "endTime": "18:00:00"
           }
         },
-        "Start": 12,
-        "Length": 10
-      }
-    ]
-  },
-  {
-    "Input": "I'll be out 5 to seven in the morning",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "Results": [
-      {
-        "Text": "5 to seven in the morning",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T05,T07,PT2H)",
-          "FutureResolution": {
-            "startTime": "05:00:00",
-            "endTime": "07:00:00"
-          },
-          "PastResolution": {
-            "startTime": "05:00:00",
-            "endTime": "07:00:00"
-          }
-        },
-        "Start": 12,
-        "Length": 25
-      }
-    ]
-  },
-  {
-    "Input": "I'll be out from 5 to 6 pm",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "Results": [
-      {
-        "Text": "from 5 to 6 pm",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T17,T18,PT1H)",
-          "FutureResolution": {
-            "startTime": "17:00:00",
-            "endTime": "18:00:00"
-          },
-          "PastResolution": {
-            "startTime": "17:00:00",
-            "endTime": "18:00:00"
-          }
-        },
-        "Start": 12,
-        "Length": 14
-      }
-    ]
-  },
-  {
-    "Input": "I'll be out between 5 and 6pm",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "Results": [
-      {
-        "Text": "between 5 and 6pm",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T17,T18,PT1H)",
-          "FutureResolution": {
-            "startTime": "17:00:00",
-            "endTime": "18:00:00"
-          },
-          "PastResolution": {
-            "startTime": "17:00:00",
-            "endTime": "18:00:00"
-          }
-        },
-        "Start": 12,
+        "Start": 4,
         "Length": 17
       }
     ]
   },
   {
-    "Input": "I'll be out between 5pm and 6pm",
+    "Input": "मैं दिन में 5 से 6 के बीच बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "between 5pm and 6pm",
+        "Text": "दिन में 5 से 6 के बीच",
         "Type": "timerange",
         "Value": {
           "Timex": "(T17,T18,PT1H)",
@@ -144,44 +156,21 @@
             "endTime": "18:00:00"
           }
         },
-        "Start": 12,
-        "Length": 19
+        "Start": 4,
+        "Length": 21
       }
     ]
   },
   {
-    "Input": "I'll be out between 5 and 6 in the afternoon",
+    "Input": "मैं 1am से 5pm तक बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "between 5 and 6 in the afternoon",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T17,T18,PT1H)",
-          "FutureResolution": {
-            "startTime": "17:00:00",
-            "endTime": "18:00:00"
-          },
-          "PastResolution": {
-            "startTime": "17:00:00",
-            "endTime": "18:00:00"
-          }
-        },
-        "Start": 12,
-        "Length": 32
-      }
-    ]
-  },
-  {
-    "Input": "I'll be out from 1am to 5pm",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "Results": [
-      {
-        "Text": "from 1am to 5pm",
+        "Text": "1am से 5pm तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T01,T17,PT16H)",
@@ -194,19 +183,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
-        "Length": 15
+        "Start": 4,
+        "Length": 13
       }
     ]
   },
   {
-    "Input": "I'll be out 4pm till 5pm",
+    "Input": "मैं शाम 4 से 5 तक बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "4pm till 5pm",
+        "Text": "शाम 4 से 5 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T16,T17,PT1H)",
@@ -219,19 +210,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
-        "Length": 12
+        "Start": 4,
+        "Length": 13
       }
     ]
   },
   {
-    "Input": "I'll be out 4 til 5pm",
+    "Input": "मैं 4 से शाम 5 तक  बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "4 til 5pm",
+        "Text": "4 से शाम 5 तक ",
         "Type": "timerange",
         "Value": {
           "Timex": "(T16,T17,PT1H)",
@@ -244,19 +237,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
-        "Length": 9
+        "Start": 4,
+        "Length": 14
       }
     ]
   },
   {
-    "Input": "I'll be out 4:00 to 7 oclock",
+    "Input": "मैं 4:00 बजे से 7 बजे तक बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "4:00 to 7 oclock",
+        "Text": "4:00 बजे से 7 बजे तक ",
         "Type": "timerange",
         "Value": {
           "Timex": "(T04:00,T07,PT3H)",
@@ -269,16 +264,18 @@
             "endTime": "07:00:00"
           }
         },
-        "Start": 12,
-        "Length": 16
+        "Start": 4,
+        "Length": 21
       }
     ]
   },
   {
-    "Input": "I'll be out 4pm-5pm",
+    "Input": "मैं 4pm-5pm तक बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
         "Text": "4pm-5pm",
@@ -294,16 +291,18 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
+        "Start": 4,
         "Length": 7
       }
     ]
   },
   {
-    "Input": "I'll be out 4pm - 5pm",
+    "Input": "मैं 4pm - 5pm बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
         "Text": "4pm - 5pm",
@@ -319,19 +318,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
+        "Start": 4,
         "Length": 9
       }
     ]
   },
   {
-    "Input": "I'll be out from 3 in the morning until 5pm",
+    "Input": "मैं morning में 3 बजे से evening के 5 तक बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 3 in the morning until 5pm",
+        "Text": "morning में 3 बजे से evening के 5 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T03,T17,PT14H)",
@@ -344,19 +345,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
-        "Length": 31
+        "Start": 4,
+        "Length": 36
       }
     ]
   },
   {
-    "Input": "I'll be out between 3 in the morning and 5pm",
+    "Input": "मैं सुबह के 3 और शाम के 5 के बीच बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "between 3 in the morning and 5pm",
+        "Text": "सुबह के 3 और शाम के 5 के बीच ",
         "Type": "timerange",
         "Value": {
           "Timex": "(T03,T17,PT14H)",
@@ -369,19 +372,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
-        "Length": 32
+        "Start": 4,
+        "Length": 29
       }
     ]
   },
   {
-    "Input": "I'll be out between 4pm and 5pm today",
+    "Input": "मैं शाम 4 और 5 के बीच बाहर रहुंगा",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "between 4pm and 5pm",
+        "Text": "शाम 4 और 5 के बीच ",
         "Type": "timerange",
         "Value": {
           "Timex": "(T16,T17,PT1H)",
@@ -394,19 +399,21 @@
             "endTime": "17:00:00"
           }
         },
-        "Start": 12,
-        "Length": 19
+        "Start": 4,
+        "Length": 18
       }
     ]
   },
   {
-    "Input": "let's meet in the morning",
+    "Input": "सुबह मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the morning",
+        "Text": "सुबह ",
         "Type": "timerange",
         "Value": {
           "Timex": "TMO",
@@ -419,19 +426,21 @@
             "endTime": "12:00:00"
           }
         },
-        "Start": 11,
-        "Length": 14
+        "Start": 0,
+        "Length": 5
       }
     ]
   },
   {
-    "Input": "let's meet in the afternoon",
+    "Input": "दोपहर को मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the afternoon",
+        "Text": "दोपहर को",
         "Type": "timerange",
         "Value": {
           "Timex": "TAF",
@@ -444,19 +453,21 @@
             "endTime": "16:00:00"
           }
         },
-        "Start": 11,
-        "Length": 16
+        "Start": 0,
+        "Length": 8
       }
     ]
   },
   {
-    "Input": "let's meet in the night",
+    "Input": "रात को मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the night",
+        "Text": "रात को ",
         "Type": "timerange",
         "Value": {
           "Timex": "TNI",
@@ -469,19 +480,21 @@
             "endTime": "23:59:59"
           }
         },
-        "Start": 11,
-        "Length": 12
+        "Start": 0,
+        "Length": 7
       }
     ]
   },
   {
-    "Input": "let's meet in the evening",
+    "Input": "शाम को मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the evening",
+        "Text": "शाम को ",
         "Type": "timerange",
         "Value": {
           "Timex": "TEV",
@@ -494,19 +507,21 @@
             "endTime": "20:00:00"
           }
         },
-        "Start": 11,
-        "Length": 14
+        "Start": 0,
+        "Length": 7
       }
     ]
   },
   {
-    "Input": "let's meet in the evenings",
+    "Input": "शामों को मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the evenings",
+        "Text": "शामों को ",
         "Type": "timerange",
         "Value": {
           "Timex": "TEV",
@@ -519,19 +534,77 @@
             "endTime": "20:00:00"
           }
         },
-        "Start": 11,
+        "Start": 0,
+        "Length": 9
+      }
+    ]
+  },
+  {
+    "Input": "तड़के सुबह मिलते हैं ",
+    "Context": {
+      "ReferenceDateTime": "2016-11-07T16:12:00"
+    },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
+    "Results": [
+      {
+        "Text": "तड़के सुबह",
+        "Type": "timerange",
+        "Value": {
+          "Timex": "TMO",
+          "Mod": "start",
+          "FutureResolution": {
+            "startTime": "08:00:00",
+            "endTime": "10:00:00"
+          },
+          "PastResolution": {
+            "startTime": "08:00:00",
+            "endTime": "10:00:00"
+          }
+        },
+        "Start": 0,
+        "Length": 9
+      }
+    ]
+  },
+  {
+    "Input": "रोज देर सुबह को मिलते हैं ",
+    "Context": {
+      "ReferenceDateTime": "2016-11-07T16:12:00"
+    },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
+    "Results": [
+      {
+        "Text": "रोज देर सुबह को",
+        "Type": "timerange",
+        "Value": {
+          "Timex": "TMO",
+          "Mod": "end",
+          "FutureResolution": {
+            "startTime": "10:00:00",
+            "endTime": "12:00:00"
+          },
+          "PastResolution": {
+            "startTime": "10:00:00",
+            "endTime": "12:00:00"
+          }
+        },
+        "Start": 0,
         "Length": 15
       }
     ]
   },
   {
-    "Input": "let's meet in the early-mornings",
+    "Input": "सुबह-सुबह मिलते हैं ",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the early-mornings",
+        "Text": "सुबह-सुबह",
         "Type": "timerange",
         "Value": {
           "Timex": "TMO",
@@ -545,19 +618,21 @@
             "endTime": "10:00:00"
           }
         },
-        "Start": 11,
-        "Length": 21
+        "Start": 0,
+        "Length": 9
       }
     ]
   },
   {
-    "Input": "let's meet in the late-mornings",
+    "Input": "देर सुबह को मिलते हैं ",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the late-mornings",
+        "Text": "देर सुबह को",
         "Type": "timerange",
         "Value": {
           "Timex": "TMO",
@@ -571,71 +646,21 @@
             "endTime": "12:00:00"
           }
         },
-        "Start": 11,
-        "Length": 20
+        "Start": 0,
+        "Length": 11
       }
     ]
   },
   {
-    "Input": "let's meet in the early-morning",
+    "Input": "दोपहर को जल्दी मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the early-morning",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "TMO",
-          "Mod": "start",
-          "FutureResolution": {
-            "startTime": "08:00:00",
-            "endTime": "10:00:00"
-          },
-          "PastResolution": {
-            "startTime": "08:00:00",
-            "endTime": "10:00:00"
-          }
-        },
-        "Start": 11,
-        "Length": 20
-      }
-    ]
-  },
-  {
-    "Input": "let's meet in the late-morning",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "Results": [
-      {
-        "Text": "in the late-morning",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "TMO",
-          "Mod": "end",
-          "FutureResolution": {
-            "startTime": "10:00:00",
-            "endTime": "12:00:00"
-          },
-          "PastResolution": {
-            "startTime": "10:00:00",
-            "endTime": "12:00:00"
-          }
-        },
-        "Start": 11,
-        "Length": 19
-      }
-    ]
-  },
-  {
-    "Input": "let's meet in the early-afternoon",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "Results": [
-      {
-        "Text": "in the early-afternoon",
+        "Text": "दोपहर को जल्दी",
         "Type": "timerange",
         "Value": {
           "Timex": "TAF",
@@ -649,19 +674,21 @@
             "endTime": "14:00:00"
           }
         },
-        "Start": 11,
-        "Length": 22
+        "Start": 0,
+        "Length": 14
       }
     ]
   },
   {
-    "Input": "let's meet in the late-afternoon",
+    "Input": "देर दोपहर को मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the late-afternoon",
+        "Text": "देर दोपहर को",
         "Type": "timerange",
         "Value": {
           "Timex": "TAF",
@@ -675,19 +702,21 @@
             "endTime": "16:00:00"
           }
         },
-        "Start": 11,
-        "Length": 21
+        "Start": 0,
+        "Length": 12
       }
     ]
   },
   {
-    "Input": "let's meet in the early-evening",
+    "Input": "शाम को जल्दी मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the early-evening",
+        "Text": "शाम को जल्दी",
         "Type": "timerange",
         "Value": {
           "Timex": "TEV",
@@ -701,19 +730,21 @@
             "endTime": "18:00:00"
           }
         },
-        "Start": 11,
-        "Length": 20
+        "Start": 0,
+        "Length": 12
       }
     ]
   },
   {
-    "Input": "let's meet in the late-evening",
+    "Input": "संध्या प्रहर देर से मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the late-evening",
+        "Text": "संध्या प्रहर देर से",
         "Type": "timerange",
         "Value": {
           "Timex": "TEV",
@@ -727,19 +758,21 @@
             "endTime": "20:00:00"
           }
         },
-        "Start": 11,
+        "Start": 0,
         "Length": 19
       }
     ]
   },
   {
-    "Input": "let's meet in the early-night",
+    "Input": "रात को जल्दी मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the early-night",
+        "Text": "रात को जल्दी",
         "Type": "timerange",
         "Value": {
           "Timex": "TNI",
@@ -753,19 +786,21 @@
             "endTime": "22:00:00"
           }
         },
-        "Start": 11,
-        "Length": 18
+        "Start": 0,
+        "Length": 12
       }
     ]
   },
   {
-    "Input": "let's meet in the late-night",
+    "Input": "देर रात में मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the late-night",
+        "Text": "देर रात में",
         "Type": "timerange",
         "Value": {
           "Timex": "TNI",
@@ -779,19 +814,21 @@
             "endTime": "23:59:59"
           }
         },
-        "Start": 11,
-        "Length": 17
+        "Start": 0,
+        "Length": 11
       }
     ]
   },
   {
-    "Input": "let's meet in the early night",
+    "Input": "जल्दी रात को मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the early night",
+        "Text": "जल्दी रात को ",
         "Type": "timerange",
         "Value": {
           "Timex": "TNI",
@@ -805,19 +842,21 @@
             "endTime": "22:00:00"
           }
         },
-        "Start": 11,
-        "Length": 18
+        "Start": 0,
+        "Length": 13
       }
     ]
   },
   {
-    "Input": "let's meet in the late night",
+    "Input": "देर रात को मिलते हैं ",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "in the late night",
+        "Text": "देर रात को",
         "Type": "timerange",
         "Value": {
           "Timex": "TNI",
@@ -831,19 +870,21 @@
             "endTime": "23:59:59"
           }
         },
-        "Start": 11,
-        "Length": 17
+        "Start": 0,
+        "Length": 10
       }
     ]
   },
   {
-    "Input": "let's meet from 1p.m. to 4",
+    "Input": "शाम 1 से 4 तक मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 1p.m. to 4",
+        "Text": "शाम 1 से 4 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T13,T16,PT3H)",
@@ -856,19 +897,21 @@
             "endTime": "16:00:00"
           }
         },
-        "Start": 11,
-        "Length": 15
+        "Start": 0,
+        "Length": 13
       }
     ]
   },
   {
-    "Input": "let's meet from 1:30p.m. to 4.",
+    "Input": "शाम 1:30 से 4 तक मिलते हैं",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 1:30p.m. to 4",
+        "Text": "शाम 1:30 से 4 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T13:30,T16,PT2H30M)",
@@ -881,19 +924,21 @@
             "endTime": "16:00:00"
           }
         },
-        "Start": 11,
-        "Length": 18
+        "Start": 0,
+        "Length": 16
       }
     ]
   },
   {
-    "Input": "Schedule during the morning",
+    "Input": "सुबह के दौरान रखो ",
     "Context": {
       "ReferenceDateTime": "2016-11-07T16:12:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "morning",
+        "Text": "सुबह",
         "Type": "timerange",
         "Value": {
           "Timex": "TMO",
@@ -906,19 +951,21 @@
             "endTime": "12:00:00"
           }
         },
-        "Start": 20,
-        "Length": 7
+        "Start": 0,
+        "Length": 4
       }
     ]
   },
   {
-    "Input": "please help me set up a meeting from 1:30am to 3",
+    "Input": "रात 1:30 से 3 तक एक मीटिंग बनाने में मेरी मदद करो ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 1:30am to 3",
+        "Text": "रात 1:30 से 3 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T01:30,T03,PT1H30M)",
@@ -931,19 +978,21 @@
             "endTime": "03:00:00"
           }
         },
-        "Start": 32,
+        "Start": 0,
         "Length": 16
       }
     ]
   },
   {
-    "Input": "The class is from 11 am to 3",
+    "Input": "सुबह 11 से 3 तक क्लास है ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 11 am to 3",
+        "Text": "सुबह 11 से 3 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T11,T15,PT4H)",
@@ -956,19 +1005,21 @@
             "endTime": "15:00:00"
           }
         },
-        "Start": 13,
+        "Start": 0,
         "Length": 15
       }
     ]
   },
   {
-    "Input": "The class is from 11 pm to 3",
+    "Input": "रात 11 से 3 तक क्लास है ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 11 pm to 3",
+        "Text": "रात 11 से 3 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T23,T03,PT4H)",
@@ -981,19 +1032,21 @@
             "endTime": "03:00:00"
           }
         },
-        "Start": 13,
-        "Length": 15
+        "Start": 0,
+        "Length": 14
       }
     ]
   },
   {
-    "Input": "The class is from 11:01 pm to 11",
+    "Input": "अपराहन 11:01  से 11 तक क्लास है ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 11:01 pm to 11",
+        "Text": "अपराहन 11:01  से 11 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T23:01,T11,PT11H59M)",
@@ -1006,19 +1059,21 @@
             "endTime": "11:00:00"
           }
         },
-        "Start": 13,
-        "Length": 19
+        "Start": 0,
+        "Length": 22
       }
     ]
   },
   {
-    "Input": "The class is from 11:01 am to 11",
+    "Input": "पूर्वाहन 11:01 से 11 तक क्लास है ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 11:01 am to 11",
+        "Text": "पूर्वाहन 11:01 से 11 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T11:01,T23,PT11H59M)",
@@ -1031,19 +1086,21 @@
             "endTime": "23:00:00"
           }
         },
-        "Start": 13,
-        "Length": 19
+        "Start": 0,
+        "Length": 23
       }
     ]
   },
   {
-    "Input": "please help me set up a meeting from 11am to 11:50",
+    "Input": "मेरी सुबह 11 से 11:50 तक मुलाकात रखने में मदद करो ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 11am to 11:50",
+        "Text": "सुबह 11 से 11:50 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T11,T11:50,PT50M)",
@@ -1056,19 +1113,21 @@
             "endTime": "11:50:00"
           }
         },
-        "Start": 32,
-        "Length": 18
+        "Start": 5,
+        "Length": 19
       }
     ]
   },
   {
-    "Input": "set up meeting from 1:30 pm to 3:30",
+    "Input": "अपराह्न 1:30 से 3:30 तक मुलाकात रखो ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 1:30 pm to 3:30",
+        "Text": "अपराह्न 1:30 से 3:30 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T13:30,T15:30,PT2H)",
@@ -1081,44 +1140,48 @@
             "endTime": "15:30:00"
           }
         },
-        "Start": 15,
-        "Length": 20
-      }
-    ]
-  },
-  {
-    "Input": "set up meeting from 1:30 pm to 3:30 pm",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 1:30 pm to 3:30 pm",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T13:30,T15:30,PT2H)",
-          "FutureResolution": {
-            "startTime": "13:30:00",
-            "endTime": "15:30:00"
-          },
-          "PastResolution": {
-            "startTime": "13:30:00",
-            "endTime": "15:30:00"
-          }
-        },
-        "Start": 15,
+        "Start": 0,
         "Length": 23
       }
     ]
   },
   {
-    "Input": "set up meeting from 3 pm to 3:30 pm",
+    "Input": "अपराह्न 1:30 से अपराहन 3:30 तक मुलाकात रखो ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 3 pm to 3:30 pm",
+        "Text": "अपराह्न 1:30 से अपराहन 3:30 तक",
+        "Type": "timerange",
+        "Value": {
+          "Timex": "(T13:30,T15:30,PT2H)",
+          "FutureResolution": {
+            "startTime": "13:30:00",
+            "endTime": "15:30:00"
+          },
+          "PastResolution": {
+            "startTime": "13:30:00",
+            "endTime": "15:30:00"
+          }
+        },
+        "Start": 0,
+        "Length": 30
+      }
+    ]
+  },
+  {
+    "Input": "दोपहर 3 से दोपहर 3:30 तक मुलाकात रखो ",
+    "Context": {
+      "ReferenceDateTime": "2017-12-01T13:37:00"
+    },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
+    "Results": [
+      {
+        "Text": "दोपहर 3 से दोपहर 3:30 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T15,T15:30,PT30M)",
@@ -1131,20 +1194,22 @@
             "endTime": "15:30:00"
           }
         },
-        "Start": 15,
-        "Length": 20
+        "Start": 0,
+        "Length": 24
       }
     ]
   },
   {
-    "Input": "I have been waiting from 0:01 am to 1 pm",
+    "Input": "मैं रात 0:01 से दोपहर 1 तक इंतज़ार कर रहा था",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
     "NotSupported": "python",
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 0:01 am to 1 pm",
+        "Text": "रात 0:01 से दोपहर 1 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T00:01,T13,PT12H59M)",
@@ -1157,20 +1222,22 @@
             "endTime": "13:00:00"
           }
         },
-        "Start": 20,
-        "Length": 20
+        "Start": 4,
+        "Length": 22
       }
     ]
   },
   {
-    "Input": "I have been waiting from 0:01 am to 1",
+    "Input": "मैं रात 0:01 से 1 तक इंतज़ार कर रहा था ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
     "NotSupported": "javascript, python",
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 0:01 am to 1",
+        "Text": "रात 0:01 से 1 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T00:01,T01,PT59M)",
@@ -1183,19 +1250,21 @@
             "endTime": "01:00:00"
           }
         },
-        "Start": 20,
-        "Length": 17
+        "Start": 4,
+        "Length": 16
       }
     ]
   },
   {
-    "Input": "set up meeting from 3 to 3:30",
+    "Input": "3 से 3:30 तक मुलाकात रखो ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 3 to 3:30",
+        "Text": "3 से 3:30 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T03,T03:30,PT30M)",
@@ -1208,19 +1277,21 @@
             "endTime": "03:30:00"
           }
         },
-        "Start": 15,
-        "Length": 14
+        "Start": 0,
+        "Length": 12
       }
     ]
   },
   {
-    "Input": "set up meeting from 1:30 to 3",
+    "Input": "1:30 से 3 तक मुलाकात रखो ",
     "Context": {
       "ReferenceDateTime": "2017-12-01T13:37:00"
     },
+    "NotSupported": "dotnet",
+    "NotSupportedByDesign": "javascript,python,java",
     "Results": [
       {
-        "Text": "from 1:30 to 3",
+        "Text": "1:30 से 3 तक",
         "Type": "timerange",
         "Value": {
           "Timex": "(T01:30,T03,PT1H30M)",
@@ -1233,417 +1304,8 @@
             "endTime": "03:00:00"
           }
         },
-        "Start": 15,
-        "Length": 14
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 1:30 to 3pm",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 1:30 to 3pm",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T13:30,T15,PT1H30M)",
-          "FutureResolution": {
-            "startTime": "13:30:00",
-            "endTime": "15:00:00"
-          },
-          "PastResolution": {
-            "startTime": "13:30:00",
-            "endTime": "15:00:00"
-          }
-        },
-        "Start": 32,
-        "Length": 16
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 11 to 3pm",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 11 to 3pm",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T11,T15,PT4H)",
-          "FutureResolution": {
-            "startTime": "11:00:00",
-            "endTime": "15:00:00"
-          },
-          "PastResolution": {
-            "startTime": "11:00:00",
-            "endTime": "15:00:00"
-          }
-        },
-        "Start": 32,
-        "Length": 14
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 11 to 11:50am",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 11 to 11:50am",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T11,T11:50,PT50M)",
-          "FutureResolution": {
-            "startTime": "11:00:00",
-            "endTime": "11:50:00"
-          },
-          "PastResolution": {
-            "startTime": "11:00:00",
-            "endTime": "11:50:00"
-          }
-        },
-        "Start": 32,
-        "Length": 18
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 11 to 3am",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 11 to 3am",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T23,T03,PT4H)",
-          "FutureResolution": {
-            "startTime": "23:00:00",
-            "endTime": "03:00:00"
-          },
-          "PastResolution": {
-            "startTime": "23:00:00",
-            "endTime": "03:00:00"
-          }
-        },
-        "Start": 32,
-        "Length": 14
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 10 to 11am",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 10 to 11am",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T10,T11,PT1H)",
-          "FutureResolution": {
-            "startTime": "10:00:00",
-            "endTime": "11:00:00"
-          },
-          "PastResolution": {
-            "startTime": "10:00:00",
-            "endTime": "11:00:00"
-          }
-        },
-        "Start": 32,
-        "Length": 15
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 23 to 3am",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 23 to 3am",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T23,T03,PT4H)",
-          "FutureResolution": {
-            "startTime": "23:00:00",
-            "endTime": "03:00:00"
-          },
-          "PastResolution": {
-            "startTime": "23:00:00",
-            "endTime": "03:00:00"
-          }
-        },
-        "Start": 32,
-        "Length": 14
-      }
-    ]
-  },
-  {
-    "Input": "please help me set up a meeting from 23 to 3pm",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "Results": [
-      {
-        "Text": "from 23 to 3pm",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T23,T15,PT16H)",
-          "FutureResolution": {
-            "startTime": "23:00:00",
-            "endTime": "15:00:00"
-          },
-          "PastResolution": {
-            "startTime": "23:00:00",
-            "endTime": "15:00:00"
-          }
-        },
-        "Start": 32,
-        "Length": 14
-      }
-    ]
-  },
-  {
-    "Input": "set up meeting between 10 and 11:30",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "NotSupported": "javascript, python",
-    "Results": [
-      {
-        "Text": "between 10 and 11:30",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T10,T11:30,PT1H30M)",
-          "FutureResolution": {
-            "startTime": "10:00:00",
-            "endTime": "11:30:00"
-          },
-          "PastResolution": {
-            "startTime": "10:00:00",
-            "endTime": "11:30:00"
-          }
-        },
-        "Start": 15,
-        "Length": 20
-      }
-    ]
-  },
-  {
-    "Input": "set up meeting between 10:10am and 12:50",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "NotSupported": "javascript, python",
-    "Results": [
-      {
-        "Text": "between 10:10am and 12:50",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T10:10,T12:50,PT2H40M)",
-          "FutureResolution": {
-            "startTime": "10:10:00",
-            "endTime": "12:50:00"
-          },
-          "PastResolution": {
-            "startTime": "10:10:00",
-            "endTime": "12:50:00"
-          }
-        },
-        "Start": 15,
-        "Length": 25
-      }
-    ]
-  },
-  {
-    "Input": "set up meeting between 10:10pm and 3",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "NotSupported": "javascript, python",
-    "Results": [
-      {
-        "Text": "between 10:10pm and 3",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T22:10,T03,PT4H50M)",
-          "FutureResolution": {
-            "startTime": "22:10:00",
-            "endTime": "03:00:00"
-          },
-          "PastResolution": {
-            "startTime": "22:10:00",
-            "endTime": "03:00:00"
-          }
-        },
-        "Start": 15,
-        "Length": 21
-      }
-    ]
-  },
-  {
-    "Input": "set up meeting from 10:10pm to 10",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "NotSupported": "javascript, python",
-    "Results": [
-      {
-        "Text": "from 10:10pm to 10",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T22:10,T10,PT11H50M)",
-          "FutureResolution": {
-            "startTime": "22:10:00",
-            "endTime": "10:00:00"
-          },
-          "PastResolution": {
-            "startTime": "22:10:00",
-            "endTime": "10:00:00"
-          }
-        },
-        "Start": 15,
-        "Length": 18
-      }
-    ]
-  },
-  {
-    "Input": "set up meeting from 10:30am to 23",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "NotSupported": "javascript, python",
-    "Results": [
-      {
-        "Text": "from 10:30am to 23",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "(T10:30,T23,PT12H30M)",
-          "FutureResolution": {
-            "startTime": "10:30:00",
-            "endTime": "23:00:00"
-          },
-          "PastResolution": {
-            "startTime": "10:30:00",
-            "endTime": "23:00:00"
-          }
-        },
-        "Start": 15,
-        "Length": 18
-      }
-    ]
-  },
-  {
-    "Input": "Don't call me in the business hours.",
-    "Context": {
-      "ReferenceDateTime": "2017-12-01T13:37:00"
-    },
-    "NotSupported": "javascript, python",
-    "Results": [
-      {
-        "Text": "in the business hours",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "TBH",
-          "FutureResolution": {
-            "startTime": "08:00:00",
-            "endTime": "18:00:00"
-          },
-          "PastResolution": {
-            "startTime": "08:00:00",
-            "endTime": "18:00:00"
-          }
-        },
-        "Start": 14,
-        "Length": 21
-      }
-    ]
-  },
-  {
-    "Input": "I'll be out lunch time",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "NotSupported": "javascript, python, java",
-    "Results": [
-      {
-        "Text": "lunch time",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "TMEL",
-          "FutureResolution": {
-            "startTime": "11:00:00",
-            "endTime": "13:00:00"
-          },
-          "PastResolution": {
-            "startTime": "11:00:00",
-            "endTime": "13:00:00"
-          }
-        },
-        "Start": 12,
-        "Length": 10
-      }
-    ]
-  },
-  {
-    "Input": "He is at lunch",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "NotSupported": "javascript, python, java",
-    "Results": [
-      {
-        "Text": "at lunch",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "TMEL",
-          "FutureResolution": {
-            "startTime": "11:00:00",
-            "endTime": "13:00:00"
-          },
-          "PastResolution": {
-            "startTime": "11:00:00",
-            "endTime": "13:00:00"
-          }
-        },
-        "Start": 6,
-        "Length": 8
-      }
-    ]
-  },
-  {
-    "Input": "This popular family friendly concert returns to the Hall for another lunchtime filled with traditional carols and festive favourites",
-    "Context": {
-      "ReferenceDateTime": "2016-11-07T16:12:00"
-    },
-    "NotSupported": "javascript, python, java",
-    "Results": [
-      {
-        "Text": "lunchtime",
-        "Type": "timerange",
-        "Value": {
-          "Timex": "TMEL",
-          "FutureResolution": {
-            "startTime": "11:00:00",
-            "endTime": "13:00:00"
-          },
-          "PastResolution": {
-            "startTime": "11:00:00",
-            "endTime": "13:00:00"
-          }
-        },
-        "Start": 69,
-        "Length": 9
+        "Start": 0,
+        "Length": 12
       }
     ]
   }
