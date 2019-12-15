@@ -36,7 +36,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (text, reference);
+                var key = (config.Options, text, reference);
 
                 results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }

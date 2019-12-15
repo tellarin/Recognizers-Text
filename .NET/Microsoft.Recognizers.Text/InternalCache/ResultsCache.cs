@@ -11,14 +11,16 @@ namespace Microsoft.Recognizers.Text.InternalCache
         where TItem : ICloneableType<TItem>
     {
 
-        private const int CacheSize = 1000;
+        private const long CacheSize = 20000;
+
+        private const double CompactionPercentage = 0.4;
 
         private static readonly MemoryCacheEntryOptions CacheEntryOptions = new MemoryCacheEntryOptions().SetSize(1);
 
         private static readonly MemoryCacheOptions CacheOptions = new MemoryCacheOptions
         {
             SizeLimit = CacheSize,
-            CompactionPercentage = 0.5,
+            CompactionPercentage = CompactionPercentage,
             ExpirationScanFrequency = TimeSpan.FromHours(24),
         };
 

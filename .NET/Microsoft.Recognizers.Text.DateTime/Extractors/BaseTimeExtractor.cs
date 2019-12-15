@@ -11,19 +11,19 @@ namespace Microsoft.Recognizers.Text.DateTime
     public class BaseTimeExtractor : IDateTimeExtractor
     {
         public static readonly Regex HourRegex =
-            new Regex(BaseDateTime.HourRegex, RegexOptions.Singleline);
+            new Regex(BaseDateTime.HourRegex, RegexOptions.Singleline | RegexOptions.Compiled);
 
         public static readonly Regex MinuteRegex =
-            new Regex(BaseDateTime.MinuteRegex, RegexOptions.Singleline);
+            new Regex(BaseDateTime.MinuteRegex, RegexOptions.Singleline | RegexOptions.Compiled);
 
         public static readonly Regex SecondRegex =
-            new Regex(BaseDateTime.SecondRegex, RegexOptions.Singleline);
+            new Regex(BaseDateTime.SecondRegex, RegexOptions.Singleline | RegexOptions.Compiled);
 
         private const string ExtractorName = Constants.SYS_DATETIME_TIME; // "Time";
 
-        private readonly ITimeExtractorConfiguration config;
+        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
-        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
+        private readonly ITimeExtractorConfiguration config;
 
         public BaseTimeExtractor(ITimeExtractorConfiguration config)
         {
@@ -46,9 +46,9 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (text, reference);
+                var key = (config.Options, text, reference);
 
-                results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+                results = ResultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }
 
             return results;

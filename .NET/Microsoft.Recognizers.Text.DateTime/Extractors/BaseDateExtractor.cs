@@ -13,7 +13,7 @@ namespace Microsoft.Recognizers.Text.DateTime
     {
         public static readonly string ExtractorName = Constants.SYS_DATETIME_DATE; // "Date";
 
-        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
+        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
         public BaseDateExtractor(IDateExtractorConfiguration config)
             : base(config)
@@ -49,9 +49,9 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (text, reference);
+                var key = (Config.Options, text, reference);
 
-                results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+                results = ResultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }
 
             return results;
