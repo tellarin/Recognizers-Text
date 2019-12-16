@@ -21,6 +21,7 @@ namespace Microsoft.Recognizers.Definitions.Turkish
 
     public static class DateTimeDefinitions
     {
+      public const string LangMarker = @"Tur";
       public const bool CheckBothBeforeAfter = true;
       public static readonly string TillRegex = $@"(?<till>\b(kadar|dek\b|değin)|{BaseDateTime.RangeConnectorSymbolRegex})";
       public static readonly string TillConnectorRegex = $@"(?<till>('?tan|'?ten|'?den|'?dan|ile)\b|{BaseDateTime.RangeConnectorSymbolRegex})";

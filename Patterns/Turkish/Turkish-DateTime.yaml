@@ -1,4 +1,6 @@
 ---
+#ISO 639-2 Code
+LangMarker: Tur
 CheckBothBeforeAfter: !bool true
 TillRegex: !nestedRegex
   def: (?<till>\b(kadar|dek\b|değin)|{BaseDateTime.RangeConnectorSymbolRegex})

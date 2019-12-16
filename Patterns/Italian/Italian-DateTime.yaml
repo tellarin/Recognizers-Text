@@ -1,4 +1,6 @@
 ---
+#ISO 639-2 Code
+LangMarker: Ita
 CheckBothBeforeAfter: !bool false
 TillRegex: !simpleRegex
   def: (?<till>\b(fino\s+a(l(l[aoe'])?|gli|i)?|a(l(l[aoe'])?|gli|i)?|e\s+(il?|l[aoe']|gli))\b|--|-|—|——|~)

@@ -49,7 +49,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (Config.Options, text, reference);
+                var key = (Config.Options, text, reference, Config.LanguageMarker);
 
                 results = ResultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }
