@@ -34,9 +34,9 @@ namespace Microsoft.Recognizers.Text.DateTime.Spanish
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
-            CardinalExtractor = Number.Spanish.CardinalExtractor.GetInstance();
-            IntegerExtractor = Number.Spanish.IntegerExtractor.GetInstance();
-            OrdinalExtractor = Number.Spanish.OrdinalExtractor.GetInstance();
+            CardinalExtractor = Number.Spanish.CardinalExtractor.GetInstance(numConfig);
+            IntegerExtractor = Number.Spanish.IntegerExtractor.GetInstance(numConfig);
+            OrdinalExtractor = Number.Spanish.OrdinalExtractor.GetInstance(numConfig);
 
             NumberParser = new BaseNumberParser(new SpanishNumberParserConfiguration(numConfig));
 

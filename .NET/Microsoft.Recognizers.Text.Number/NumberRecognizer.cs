@@ -142,21 +142,21 @@ namespace Microsoft.Recognizers.Text.Number
                 (options) => new NumberModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number, new SpanishNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Spanish, options))),
-                    Spanish.NumberExtractor.GetInstance(NumberMode.PureNumber, options)));
+                    Spanish.NumberExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.Spanish, options, NumberMode.PureNumber))));
 
             RegisterModel<OrdinalModel>(
                 Culture.Spanish,
                 (options) => new OrdinalModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Ordinal, new SpanishNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Spanish, options))),
-                    Spanish.OrdinalExtractor.GetInstance()));
+                    Spanish.OrdinalExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.Spanish, options))));
 
             RegisterModel<PercentModel>(
                 Culture.Spanish,
                 (options) => new PercentModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Percentage, new SpanishNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Spanish, options))),
-                    new Spanish.PercentageExtractor()));
+                    new Spanish.PercentageExtractor(new BaseNumberOptionsConfiguration(Culture.Spanish, options))));
 
             RegisterModel<NumberRangeModel>(
                 Culture.Spanish,
@@ -170,21 +170,21 @@ namespace Microsoft.Recognizers.Text.Number
                 (options) => new NumberModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number, new PortugueseNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Portuguese, options))),
-                    Portuguese.NumberExtractor.GetInstance(NumberMode.PureNumber, options)));
+                    Portuguese.NumberExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.Portuguese, options, NumberMode.PureNumber))));
 
             RegisterModel<OrdinalModel>(
                 Culture.Portuguese,
                 (options) => new OrdinalModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Ordinal, new PortugueseNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Portuguese, options))),
-                    Portuguese.OrdinalExtractor.GetInstance()));
+                    Portuguese.OrdinalExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.Portuguese, options))));
 
             RegisterModel<PercentModel>(
                 Culture.Portuguese,
                 (options) => new PercentModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Percentage, new PortugueseNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Portuguese, options))),
-                    new Portuguese.PercentageExtractor()));
+                    new Portuguese.PercentageExtractor(new BaseNumberOptionsConfiguration(Culture.Portuguese, options))));
 
             RegisterModel<NumberModel>(
                 Culture.French,

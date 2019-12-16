@@ -213,8 +213,8 @@ namespace Microsoft.Recognizers.Text.DateTime.Portuguese
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
-            CardinalExtractor = Number.Portuguese.CardinalExtractor.GetInstance();
-            OrdinalExtractor = Number.Portuguese.OrdinalExtractor.GetInstance();
+            CardinalExtractor = Number.Portuguese.CardinalExtractor.GetInstance(numConfig);
+            OrdinalExtractor = Number.Portuguese.OrdinalExtractor.GetInstance(numConfig);
 
             NumberParser = new BaseNumberParser(new PortugueseNumberParserConfiguration(numConfig));
         }

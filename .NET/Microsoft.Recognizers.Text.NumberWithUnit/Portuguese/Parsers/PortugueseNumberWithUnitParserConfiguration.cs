@@ -14,7 +14,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Portuguese
 
             var numConfig = new BaseNumberOptionsConfiguration(Culture.Portuguese, NumberOptions.None);
 
-            this.InternalNumberExtractor = NumberExtractor.GetInstance();
+            this.InternalNumberExtractor = NumberExtractor.GetInstance(numConfig);
             this.InternalNumberParser = AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number,
                                                                               new PortugueseNumberParserConfiguration(numConfig));
             this.ConnectorToken = NumbersWithUnitDefinitions.ConnectorToken;

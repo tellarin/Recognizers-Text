@@ -14,7 +14,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 
             var numConfig = new BaseNumberOptionsConfiguration(Culture.Spanish, NumberOptions.None);
 
-            this.InternalNumberExtractor = NumberExtractor.GetInstance();
+            this.InternalNumberExtractor = NumberExtractor.GetInstance(numConfig);
             this.InternalNumberParser = AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number,
                                                                               new SpanishNumberParserConfiguration(numConfig));
             this.ConnectorToken = NumbersWithUnitDefinitions.ConnectorToken;

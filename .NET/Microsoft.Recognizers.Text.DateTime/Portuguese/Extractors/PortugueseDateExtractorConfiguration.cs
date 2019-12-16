@@ -136,8 +136,8 @@ namespace Microsoft.Recognizers.Text.DateTime.Portuguese
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
-            IntegerExtractor = Number.Portuguese.IntegerExtractor.GetInstance();
-            OrdinalExtractor = Number.Portuguese.OrdinalExtractor.GetInstance();
+            IntegerExtractor = Number.Portuguese.IntegerExtractor.GetInstance(numConfig);
+            OrdinalExtractor = Number.Portuguese.OrdinalExtractor.GetInstance(numConfig);
             NumberParser = new BaseNumberParser(new PortugueseNumberParserConfiguration(numConfig));
 
             DurationExtractor = new BaseDurationExtractor(new PortugueseDurationExtractorConfiguration(this));
