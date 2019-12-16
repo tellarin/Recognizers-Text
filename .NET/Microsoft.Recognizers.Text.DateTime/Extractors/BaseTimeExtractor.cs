@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions;
@@ -23,11 +24,14 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
+        private readonly string keyPrefix;
+
         private readonly ITimeExtractorConfiguration config;
 
         public BaseTimeExtractor(ITimeExtractorConfiguration config)
         {
             this.config = config;
+            keyPrefix = string.Intern(config.Options + "_" + config.LanguageMarker);
         }
 
         public virtual List<ExtractResult> Extract(string text)
@@ -46,7 +50,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (config.Options, text, reference, config.LanguageMarker);
+                var key = (keyPrefix, text, reference);
 
                 results = ResultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }

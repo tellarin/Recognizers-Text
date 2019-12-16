@@ -24,10 +24,19 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
         public ChineseDateParserConfiguration(ChineseDateTimeParserConfiguration configuration)
         {
             config = configuration;
+
+            var numOptions = NumberOptions.None;
+            if ((config.Options & DateTimeOptions.NoProtoCache) != 0)
+            {
+                numOptions = NumberOptions.NoProtoCache;
+            }
+
+            var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
+
             integerExtractor = new IntegerExtractor();
             ordinalExtractor = new OrdinalExtractor();
             durationExtractor = new ChineseDurationExtractorConfiguration();
-            numberParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(new BaseNumberOptionsConfiguration(configuration.Culture)));
+            numberParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(numConfig));
         }
 
         public ParseResult Parse(ExtractResult extResult)

@@ -16,9 +16,12 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
 
+        private readonly string keyPrefix;
+
         public BaseTimePeriodExtractor(ITimePeriodExtractorConfiguration config)
         {
             this.config = config;
+            keyPrefix = string.Intern(config.Options + "_" + config.LanguageMarker);
         }
 
         public List<ExtractResult> Extract(string text)
@@ -36,7 +39,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (config.Options, text, reference);
+                var key = (keyPrefix, text, reference);
 
                 results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }

@@ -18,9 +18,14 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
-        private OrdinalExtractor(NumberOptions options)
-            : base(options)
+        private readonly string keyPrefix;
+
+        private OrdinalExtractor(BaseNumberOptionsConfiguration config)
+            : base(config.Options)
         {
+
+            keyPrefix = config.Options.ToString();
+
             AmbiguousFractionConnectorsRegex = new Regex(NumbersDefinitions.AmbiguousFractionConnectorsRegex, RegexFlags);
 
             RelativeReferenceRegex = new Regex(NumbersDefinitions.RelativeOrdinalRegex, RegexFlags);
@@ -56,16 +61,17 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override Regex RelativeReferenceRegex { get; }
 
-        public static OrdinalExtractor GetInstance(NumberOptions options = NumberOptions.None)
+        public static OrdinalExtractor GetInstance(BaseNumberOptionsConfiguration config)
         {
-            var cacheKey = options.ToString();
-            if (!Instances.ContainsKey(cacheKey))
+            var extractorKey = config.Options.ToString();
+
+            if (!Instances.ContainsKey(extractorKey))
             {
-                var instance = new OrdinalExtractor(options);
-                Instances.TryAdd(cacheKey, instance);
+                var instance = new OrdinalExtractor(config);
+                Instances.TryAdd(extractorKey, instance);
             }
 
-            return Instances[cacheKey];
+            return Instances[extractorKey];
         }
 
         public override List<ExtractResult> Extract(string source)
@@ -78,7 +84,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             }
             else
             {
-                var key = (Options, source);
+                var key = (keyPrefix, source);
 
                 results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
             }

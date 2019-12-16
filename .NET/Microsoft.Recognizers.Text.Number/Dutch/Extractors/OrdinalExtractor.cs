@@ -14,7 +14,8 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
 
         private static readonly ConcurrentDictionary<string, OrdinalExtractor> Instances = new ConcurrentDictionary<string, OrdinalExtractor>();
 
-        private OrdinalExtractor()
+        private OrdinalExtractor(BaseNumberOptionsConfiguration config)
+            : base(config.Options)
         {
             var regexes = new Dictionary<Regex, TypeTag>
             {
@@ -43,15 +44,18 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_ORDINAL; // "Ordinal";
 
-        public static OrdinalExtractor GetInstance(string placeholder = "")
+        public static OrdinalExtractor GetInstance(BaseNumberOptionsConfiguration config)
         {
-            if (!Instances.ContainsKey(placeholder))
+
+            var extractorKey = config.Options.ToString();
+
+            if (!Instances.ContainsKey(extractorKey))
             {
-                var instance = new OrdinalExtractor();
-                Instances.TryAdd(placeholder, instance);
+                var instance = new OrdinalExtractor(config);
+                Instances.TryAdd(extractorKey, instance);
             }
 
-            return Instances[placeholder];
+            return Instances[extractorKey];
         }
     }
 }

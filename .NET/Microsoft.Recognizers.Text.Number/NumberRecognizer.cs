@@ -80,26 +80,27 @@ namespace Microsoft.Recognizers.Text.Number
 
         protected override void InitializeConfiguration()
         {
+
             RegisterModel<NumberModel>(
                 Culture.English,
                 options => new NumberModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number, new EnglishNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.English, options))),
-                    English.MergedNumberExtractor.GetInstance(NumberMode.PureNumber, options)));
+                    English.MergedNumberExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.English, options, NumberMode.PureNumber))));
 
             RegisterModel<OrdinalModel>(
                 Culture.English,
                 options => new OrdinalModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Ordinal, new EnglishNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.English, options))),
-                    English.OrdinalExtractor.GetInstance(options)));
+                    English.OrdinalExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.English, options))));
 
             RegisterModel<PercentModel>(
                 Culture.English,
                 options => new PercentModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Percentage, new EnglishNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.English, options))),
-                    new English.PercentageExtractor(options)));
+                    new English.PercentageExtractor(new BaseNumberOptionsConfiguration(Culture.English, options))));
 
             RegisterModel<NumberRangeModel>(
                 Culture.English,
@@ -297,21 +298,21 @@ namespace Microsoft.Recognizers.Text.Number
                 (options) => new NumberModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number, new DutchNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Dutch, options))),
-                    Dutch.NumberExtractor.GetInstance(NumberMode.PureNumber)));
+                    Dutch.NumberExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.Dutch, options, NumberMode.PureNumber))));
 
             RegisterModel<OrdinalModel>(
                 Culture.Dutch,
                 (options) => new OrdinalModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Ordinal, new DutchNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Dutch, options))),
-                    Dutch.OrdinalExtractor.GetInstance()));
+                    Dutch.OrdinalExtractor.GetInstance(new BaseNumberOptionsConfiguration(Culture.Dutch, options))));
 
             RegisterModel<PercentModel>(
                 Culture.Dutch,
                 (options) => new PercentModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Percentage, new DutchNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Dutch, options))),
-                    new Dutch.PercentageExtractor(options)));
+                    new Dutch.PercentageExtractor(new BaseNumberOptionsConfiguration(Culture.Dutch, options))));
 
             // When registering NumberRangeModel, enable TestNumber_Dutch -> NumberRangeModel tests
             /*

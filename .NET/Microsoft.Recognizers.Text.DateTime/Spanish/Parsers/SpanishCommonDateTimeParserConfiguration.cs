@@ -26,11 +26,20 @@ namespace Microsoft.Recognizers.Text.DateTime.Spanish
             WrittenDecades = DateTimeDefinitions.WrittenDecades.ToImmutableDictionary();
             SpecialDecadeCases = DateTimeDefinitions.SpecialDecadeCases.ToImmutableDictionary();
 
+            var numOptions = NumberOptions.None;
+            if ((config.Options & DateTimeOptions.NoProtoCache) != 0)
+            {
+                numOptions = NumberOptions.NoProtoCache;
+            }
+
+            var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
+
             CardinalExtractor = Number.Spanish.CardinalExtractor.GetInstance();
             IntegerExtractor = Number.Spanish.IntegerExtractor.GetInstance();
             OrdinalExtractor = Number.Spanish.OrdinalExtractor.GetInstance();
 
-            NumberParser = new BaseNumberParser(new SpanishNumberParserConfiguration(new BaseNumberOptionsConfiguration(config.Culture)));
+            NumberParser = new BaseNumberParser(new SpanishNumberParserConfiguration(numConfig));
+
             DateExtractor = new BaseDateExtractor(new SpanishDateExtractorConfiguration(this));
             TimeExtractor = new BaseTimeExtractor(new SpanishTimeExtractorConfiguration(this));
             DateTimeExtractor = new BaseDateTimeExtractor(new SpanishDateTimeExtractorConfiguration(this));

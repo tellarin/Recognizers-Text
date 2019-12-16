@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-using Microsoft.Recognizers.Definitions.English;
 using Microsoft.Recognizers.Text.InternalCache;
 
 namespace Microsoft.Recognizers.Text.Number.English
@@ -15,22 +14,22 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
-        private readonly string placeholder;
+        private readonly string keyPrefix;
 
-        private CardinalExtractor(NumberOptions options, string placeholder)
-            : base(options)
+        private CardinalExtractor(BaseNumberOptionsConfiguration config)
+            : base(config.Options)
         {
 
-            this.placeholder = placeholder;
+            keyPrefix = string.Intern(config.Options + "_" + config.Placeholder);
 
             var builder = ImmutableDictionary.CreateBuilder<Regex, TypeTag>();
 
             // Add Integer Regexes
-            var intExtract = IntegerExtractor.GetInstance(options, placeholder);
+            var intExtract = IntegerExtractor.GetInstance(config);
             builder.AddRange(intExtract.Regexes);
 
             // Add Double Regexes
-            var douExtract = DoubleExtractor.GetInstance(options, placeholder);
+            var douExtract = DoubleExtractor.GetInstance(config);
             builder.AddRange(douExtract.Regexes);
 
             Regexes = builder.ToImmutable();
@@ -40,17 +39,18 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_CARDINAL; // "Cardinal";
 
-        public static CardinalExtractor GetInstance(NumberOptions options = NumberOptions.None,
-                                                    string placeholder = NumbersDefinitions.PlaceHolderDefault)
+        public static CardinalExtractor GetInstance(BaseNumberOptionsConfiguration config)
         {
 
-            if (!Instances.ContainsKey(placeholder))
+            var extractorKey = config.Placeholder;
+
+            if (!Instances.ContainsKey(extractorKey))
             {
-                var instance = new CardinalExtractor(options, placeholder);
-                Instances.TryAdd(placeholder, instance);
+                var instance = new CardinalExtractor(config);
+                Instances.TryAdd(extractorKey, instance);
             }
 
-            return Instances[placeholder];
+            return Instances[extractorKey];
         }
 
         public override List<ExtractResult> Extract(string source)
@@ -64,7 +64,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             }
             else
             {
-                var key = (Options, placeholder, source);
+                var key = (keyPrefix, source);
 
                 results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
             }

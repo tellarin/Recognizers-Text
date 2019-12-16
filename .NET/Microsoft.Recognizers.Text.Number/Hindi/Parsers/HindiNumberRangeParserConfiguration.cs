@@ -13,8 +13,10 @@ namespace Microsoft.Recognizers.Text.Number.Hindi
         {
             CultureInfo = new CultureInfo(config.Culture);
 
-            NumberExtractor = English.NumberExtractor.GetInstance(NumberMode.Default, config.Options);
-            OrdinalExtractor = English.OrdinalExtractor.GetInstance(config.Options);
+            var numConfig = new BaseNumberOptionsConfiguration(config.Culture, config.Options);
+
+            NumberExtractor = English.NumberExtractor.GetInstance(numConfig);
+            OrdinalExtractor = English.OrdinalExtractor.GetInstance(numConfig);
             NumberParser = new BaseNumberParser(new HindiNumberParserConfiguration(config));
 
             MoreOrEqual = new Regex(NumbersDefinitions.MoreOrEqual, RegexFlags);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Microsoft.Recognizers.Definitions.Chinese;
 using Microsoft.Recognizers.Text.Number;
@@ -18,17 +17,27 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
         private static readonly IExtractor IntegerExtractor = new IntegerExtractor();
 
-        private static readonly IParser IntegerParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(new BaseNumberOptionsConfiguration(Culture.Chinese)));
-
         private static readonly IDateTimeExtractor DurationExtractor = new ChineseDurationExtractorConfiguration();
 
-        private static readonly Calendar Cal = DateTimeFormatInfo.InvariantInfo.Calendar;
+        private static IParser integerParser;
 
         private readonly IFullDateTimeParserConfiguration config;
 
         public ChineseDatePeriodParserConfiguration(IFullDateTimeParserConfiguration configuration)
         {
             config = configuration;
+
+            var numOptions = NumberOptions.None;
+
+            if ((config.Options & DateTimeOptions.NoProtoCache) != 0)
+            {
+                numOptions = NumberOptions.NoProtoCache;
+            }
+
+            var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
+
+            integerParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(numConfig));
+
         }
 
         public ParseResult Parse(ExtractResult extResult)
@@ -166,7 +175,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             {
                 if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
                 {
-                    num = Convert.ToInt32((double)(IntegerParser.Parse(er[0]).Value ?? 0));
+                    num = Convert.ToInt32((double)(integerParser.Parse(er[0]).Value ?? 0));
                 }
             }
 
@@ -184,7 +193,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             {
                 if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
                 {
-                    num = Convert.ToInt32((double)(IntegerParser.Parse(er[0]).Value ?? 0));
+                    num = Convert.ToInt32((double)(integerParser.Parse(er[0]).Value ?? 0));
                 }
             }
 
@@ -199,7 +208,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
                     {
                         if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
                         {
-                            num += Convert.ToInt32((double)(IntegerParser.Parse(er[0]).Value ?? 0));
+                            num += Convert.ToInt32((double)(integerParser.Parse(er[0]).Value ?? 0));
                         }
                     }
                 }

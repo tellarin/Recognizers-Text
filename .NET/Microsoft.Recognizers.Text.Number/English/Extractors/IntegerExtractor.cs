@@ -17,18 +17,18 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
-        private readonly string placeholder;
+        private readonly string keyPrefix;
 
-        private IntegerExtractor(NumberOptions options, string placeholder)
-            : base(options)
+        private IntegerExtractor(BaseNumberOptionsConfiguration config)
+            : base(config.Options)
         {
 
-            this.placeholder = placeholder;
+            keyPrefix = string.Intern(config.Options + "_" + config.Placeholder);
 
             var regexes = new Dictionary<Regex, TypeTag>
             {
                 {
-                    new Regex(NumbersDefinitions.NumbersWithPlaceHolder(placeholder), RegexFlags),
+                    new Regex(NumbersDefinitions.NumbersWithPlaceHolder(config.Placeholder), RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
                 {
@@ -52,15 +52,15 @@ namespace Microsoft.Recognizers.Text.Number.English
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.ENGLISH)
                 },
                 {
-                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumComma, placeholder, RegexFlags),
+                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumComma, config.Placeholder, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
                 {
-                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumBlank, placeholder, RegexFlags),
+                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumBlank, config.Placeholder, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
                 {
-                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumNoBreakSpace, placeholder, RegexFlags),
+                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumNoBreakSpace, config.Placeholder, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
             };
@@ -72,17 +72,18 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_INTEGER; // "Integer";
 
-        public static IntegerExtractor GetInstance(NumberOptions options = NumberOptions.None,
-                                                   string placeholder = NumbersDefinitions.PlaceHolderDefault)
+        public static IntegerExtractor GetInstance(BaseNumberOptionsConfiguration config)
         {
 
-            if (!Instances.ContainsKey(placeholder))
+            var extractorKey = config.Placeholder;
+
+            if (!Instances.ContainsKey(extractorKey))
             {
-                var instance = new IntegerExtractor(options, placeholder);
-                Instances.TryAdd(placeholder, instance);
+                var instance = new IntegerExtractor(config);
+                Instances.TryAdd(extractorKey, instance);
             }
 
-            return Instances[placeholder];
+            return Instances[extractorKey];
         }
 
         public override List<ExtractResult> Extract(string source)
@@ -95,7 +96,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             }
             else
             {
-                var key = (Options, placeholder, source);
+                var key = (keyPrefix, source);
 
                 results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
             }

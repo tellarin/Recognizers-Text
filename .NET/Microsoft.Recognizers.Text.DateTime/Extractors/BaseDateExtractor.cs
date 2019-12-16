@@ -15,9 +15,14 @@ namespace Microsoft.Recognizers.Text.DateTime
 
         private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
+        private readonly string keyPrefix;
+
         public BaseDateExtractor(IDateExtractorConfiguration config)
             : base(config)
         {
+
+            keyPrefix = string.Intern(Config.Options + "_" + Config.LanguageMarker);
+
         }
 
         public static bool IsOverlapWithExistExtractions(Token er, List<Token> existErs)
@@ -49,7 +54,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             }
             else
             {
-                var key = (Config.Options, text, reference, Config.LanguageMarker);
+                var key = (keyPrefix, text, reference);
 
                 results = ResultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }
