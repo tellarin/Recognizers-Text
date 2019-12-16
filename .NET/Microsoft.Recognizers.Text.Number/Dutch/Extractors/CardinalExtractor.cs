@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
@@ -9,9 +10,14 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
         private static readonly ConcurrentDictionary<string, CardinalExtractor> Instances =
             new ConcurrentDictionary<string, CardinalExtractor>();
 
+        private readonly string keyPrefix;
+
         private CardinalExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
+
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Placeholder + "_" + config.Culture);
+
             var builder = ImmutableDictionary.CreateBuilder<Regex, TypeTag>();
 
             // Add Integer Regexes
@@ -41,6 +47,25 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
             }
 
             return Instances[extractorKey];
+        }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+
+            List<ExtractResult> results;
+
+            if ((this.Options & NumberOptions.NoProtoCache) != 0)
+            {
+                results = base.Extract(source);
+            }
+            else
+            {
+                var key = (keyPrefix, source);
+
+                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            }
+
+            return results;
         }
     }
 }

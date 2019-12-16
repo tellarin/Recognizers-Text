@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions.English;
-using Microsoft.Recognizers.Text.InternalCache;
 
 namespace Microsoft.Recognizers.Text.Number.English
 {
@@ -15,15 +14,13 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor> Instances =
             new ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor>();
 
-        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
-
         private readonly string keyPrefix;
 
         private NumberExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
 
-            keyPrefix = string.Intern(config.Options + "_" + config.Mode);
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Mode + "_" + config.Culture);
 
             NegativeNumberTermsRegex = new Regex(NumbersDefinitions.NegativeNumberTermsRegex + '$', RegexFlags);
 

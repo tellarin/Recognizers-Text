@@ -11,20 +11,27 @@ namespace Microsoft.Recognizers.Text.InternalCache
         where TItem : ICloneableType<TItem>
     {
 
-        private const long CacheSize = 20000;
+        private const long BaseCacheSize = 20000;
 
-        private const double CompactionPercentage = 0.4;
+        private const double CompactionPercentage = 0.6;
 
         private static readonly MemoryCacheEntryOptions CacheEntryOptions = new MemoryCacheEntryOptions().SetSize(1);
 
-        private static readonly MemoryCacheOptions CacheOptions = new MemoryCacheOptions
-        {
-            SizeLimit = CacheSize,
-            CompactionPercentage = CompactionPercentage,
-            ExpirationScanFrequency = TimeSpan.FromHours(24),
-        };
+        private readonly IMemoryCache resultsCache;
 
-        private readonly IMemoryCache resultsCache = new MemoryCache(CacheOptions);
+        // In recognizers usage, DateTime has 4 cache instances, while Number only has one.
+        public ResultsCache(int ratioFactor = 1)
+        {
+
+            var cacheOptions = new MemoryCacheOptions
+            {
+                SizeLimit = BaseCacheSize * ratioFactor,
+                CompactionPercentage = CompactionPercentage,
+                ExpirationScanFrequency = TimeSpan.FromHours(24),
+            };
+
+            resultsCache = new MemoryCache(cacheOptions);
+        }
 
         public List<TItem> GetOrCreate(object key, Func<List<TItem>> createItem)
         {

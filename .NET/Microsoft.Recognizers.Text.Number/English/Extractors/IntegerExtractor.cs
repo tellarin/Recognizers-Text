@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions.English;
-using Microsoft.Recognizers.Text.InternalCache;
 
 namespace Microsoft.Recognizers.Text.Number.English
 {
@@ -15,15 +14,13 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, IntegerExtractor> Instances =
             new ConcurrentDictionary<string, IntegerExtractor>();
 
-        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
-
         private readonly string keyPrefix;
 
         private IntegerExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
 
-            keyPrefix = string.Intern(config.Options + "_" + config.Placeholder);
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Placeholder + "_" + config.Culture);
 
             var regexes = new Dictionary<Regex, TypeTag>
             {

@@ -16,15 +16,13 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, OrdinalExtractor> Instances =
             new ConcurrentDictionary<string, OrdinalExtractor>();
 
-        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
-
         private readonly string keyPrefix;
 
         private OrdinalExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
 
-            keyPrefix = config.Options.ToString();
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options.ToString() + "_" + config.Culture);
 
             AmbiguousFractionConnectorsRegex = new Regex(NumbersDefinitions.AmbiguousFractionConnectorsRegex, RegexFlags);
 

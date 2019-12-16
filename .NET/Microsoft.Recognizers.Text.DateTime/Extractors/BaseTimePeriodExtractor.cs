@@ -12,9 +12,9 @@ namespace Microsoft.Recognizers.Text.DateTime
     {
         public static readonly string ExtractorName = Constants.SYS_DATETIME_TIMEPERIOD; // "TimePeriod";
 
-        private readonly ITimePeriodExtractorConfiguration config;
+        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
 
-        private readonly ResultsCache<ExtractResult> resultsCache = new ResultsCache<ExtractResult>();
+        private readonly ITimePeriodExtractorConfiguration config;
 
         private readonly string keyPrefix;
 
@@ -41,7 +41,7 @@ namespace Microsoft.Recognizers.Text.DateTime
             {
                 var key = (keyPrefix, text, reference);
 
-                results = resultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
+                results = ResultsCache.GetOrCreate(key, () => ExtractImpl(text, reference));
             }
 
             return results;

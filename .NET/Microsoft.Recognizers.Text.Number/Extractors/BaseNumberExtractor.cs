@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions;
+using Microsoft.Recognizers.Text.InternalCache;
 
 namespace Microsoft.Recognizers.Text.Number
 {
@@ -12,6 +13,8 @@ namespace Microsoft.Recognizers.Text.Number
     {
         public static readonly Regex CurrencyRegex =
             new Regex(BaseNumbers.CurrencyRegex, RegexOptions.Singleline | RegexOptions.ExplicitCapture);
+
+        protected static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>(4);
 
         protected BaseNumberExtractor(NumberOptions options = NumberOptions.None)
         {
@@ -158,7 +161,8 @@ namespace Microsoft.Recognizers.Text.Number
                         if (regex.Key.IsMatch(extractResult.Text))
                         {
                             var matches = regex.Value.Matches(text).Cast<Match>();
-                            extractResults = extractResults.Where(er => !matches.Any(m => m.Index < er.Start + er.Length && m.Index + m.Length > er.Start))
+                            extractResults = extractResults.Where(er => !matches.Any(m => m.Index < er.Start + er.Length &&
+                                                                                          m.Index + m.Length > er.Start))
                                 .ToList();
                         }
                     }

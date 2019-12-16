@@ -13,9 +13,14 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
 
         private static readonly ConcurrentDictionary<string, IntegerExtractor> Instances = new ConcurrentDictionary<string, IntegerExtractor>();
 
+        private readonly string keyPrefix;
+
         private IntegerExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
+
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Placeholder + "_" + config.Culture);
+
             var regexes = new Dictionary<Regex, TypeTag>
             {
                 {
@@ -79,6 +84,24 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
             }
 
             return Instances[extractorKey];
+        }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+            List<ExtractResult> results;
+
+            if ((this.Options & NumberOptions.NoProtoCache) != 0)
+            {
+                results = base.Extract(source);
+            }
+            else
+            {
+                var key = (keyPrefix, source);
+
+                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            }
+
+            return results;
         }
     }
 }

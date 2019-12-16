@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
@@ -13,9 +14,14 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
         private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor> Instances =
             new ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor>();
 
+        private readonly string keyPrefix;
+
         private NumberExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
+
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Mode + "_" + config.Culture);
+
             NegativeNumberTermsRegex = new Regex(NumbersDefinitions.NegativeNumberTermsRegex + '$', RegexFlags);
 
             var builder = ImmutableDictionary.CreateBuilder<Regex, TypeTag>();
@@ -65,8 +71,6 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
             AmbiguityFiltersDict = ambiguityBuilder.ToImmutable();
         }
 
-        public sealed override NumberOptions Options { get; }
-
         internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
         protected sealed override ImmutableDictionary<Regex, Regex> AmbiguityFiltersDict { get; }
@@ -86,6 +90,24 @@ namespace Microsoft.Recognizers.Text.Number.Dutch
             }
 
             return Instances[extractorKey];
+        }
+
+        public override List<ExtractResult> Extract(string source)
+        {
+            List<ExtractResult> results;
+
+            if ((this.Options & NumberOptions.NoProtoCache) != 0)
+            {
+                results = base.Extract(source);
+            }
+            else
+            {
+                var key = (keyPrefix, source);
+
+                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
+            }
+
+            return results;
         }
     }
 }

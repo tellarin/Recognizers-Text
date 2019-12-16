@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-using Microsoft.Recognizers.Text.InternalCache;
-
 namespace Microsoft.Recognizers.Text.Number.English
 {
     public class CardinalExtractor : BaseNumberExtractor
@@ -12,15 +10,13 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<string, CardinalExtractor> Instances =
             new ConcurrentDictionary<string, CardinalExtractor>();
 
-        private static readonly ResultsCache<ExtractResult> ResultsCache = new ResultsCache<ExtractResult>();
-
         private readonly string keyPrefix;
 
         private CardinalExtractor(BaseNumberOptionsConfiguration config)
             : base(config.Options)
         {
 
-            keyPrefix = string.Intern(config.Options + "_" + config.Placeholder);
+            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Placeholder + "_" + config.Culture);
 
             var builder = ImmutableDictionary.CreateBuilder<Regex, TypeTag>();
 
