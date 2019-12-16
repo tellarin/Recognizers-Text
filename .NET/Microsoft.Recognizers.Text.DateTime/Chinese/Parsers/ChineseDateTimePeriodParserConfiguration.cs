@@ -36,7 +36,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
         private static readonly IDateTimeExtractor TimePeriodExtractor = new ChineseTimePeriodExtractorChsConfiguration();
 
-        private static readonly IExtractor CardinalExtractor = new CardinalExtractor();
+        private readonly IExtractor cardinalExtractor;
 
         private readonly IParser cardinalParser;
 
@@ -53,6 +53,8 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             }
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
+
+            cardinalExtractor = new CardinalExtractor(numConfig);
 
             cardinalParser = AgnosticNumberParserFactory.GetParser(
                 AgnosticNumberParserType.Cardinal, new ChineseNumberParserConfiguration(numConfig));
@@ -548,7 +550,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             string unitStr;
 
             // if there are spaces between number and unit
-            var ers = CardinalExtractor.Extract(text);
+            var ers = cardinalExtractor.Extract(text);
             if (ers.Count == 1)
             {
                 var pr = cardinalParser.Parse(ers[0]);

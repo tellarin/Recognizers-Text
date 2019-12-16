@@ -25,7 +25,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
         private readonly IDateTimeExtractor durationExtractor = new ChineseDurationExtractorConfiguration();
 
-        private readonly IExtractor integerExtractor = new IntegerExtractor();
+        private readonly IExtractor integerExtractor;
 
         private readonly IParser numberParser;
 
@@ -43,6 +43,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
+            integerExtractor = new IntegerExtractor(numConfig);
             numberParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(numConfig));
         }
 

@@ -7,7 +7,7 @@ using Microsoft.Recognizers.Definitions.English;
 
 namespace Microsoft.Recognizers.Text.Number.English
 {
-    public class IntegerExtractor : BaseNumberExtractor
+    public class IntegerExtractor : CachedNumberExtractor
     {
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
@@ -83,22 +83,9 @@ namespace Microsoft.Recognizers.Text.Number.English
             return Instances[extractorKey];
         }
 
-        public override List<ExtractResult> Extract(string source)
+        protected override object GenKey(string input)
         {
-            List<ExtractResult> results;
-
-            if ((this.Options & NumberOptions.NoProtoCache) != 0)
-            {
-                results = base.Extract(source);
-            }
-            else
-            {
-                var key = (keyPrefix, source);
-
-                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
-            }
-
-            return results;
+            return (keyPrefix, input);
         }
 
     }

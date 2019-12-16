@@ -114,21 +114,21 @@ namespace Microsoft.Recognizers.Text.Number
                 (options) => new NumberModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number, new ChineseNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Chinese, options))),
-                    new Chinese.NumberExtractor()));
+                    new Chinese.NumberExtractor(new BaseNumberOptionsConfiguration(Culture.Chinese, options))));
 
             RegisterModel<OrdinalModel>(
                 Culture.Chinese,
                 (options) => new OrdinalModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Ordinal, new ChineseNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Chinese, options))),
-                    new Chinese.OrdinalExtractor()));
+                    new Chinese.OrdinalExtractor(new BaseNumberOptionsConfiguration(Culture.Chinese, options))));
 
             RegisterModel<PercentModel>(
                 Culture.Chinese,
                 (options) => new PercentModel(
                     AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Percentage, new ChineseNumberParserConfiguration(
                                                               new BaseNumberOptionsConfiguration(Culture.Chinese, options))),
-                    new Chinese.PercentageExtractor()));
+                    new Chinese.PercentageExtractor(new BaseNumberOptionsConfiguration(Culture.Chinese, options))));
 
             RegisterModel<NumberRangeModel>(
                 Culture.Chinese,

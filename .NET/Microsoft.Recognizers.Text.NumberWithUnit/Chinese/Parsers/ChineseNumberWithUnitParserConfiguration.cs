@@ -12,7 +12,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Chinese
 
             var numConfig = new BaseNumberOptionsConfiguration(ci.Name, NumberOptions.None);
 
-            this.InternalNumberExtractor = new NumberExtractor();
+            this.InternalNumberExtractor = new NumberExtractor(numConfig);
             this.InternalNumberParser = AgnosticNumberParserFactory.GetParser(AgnosticNumberParserType.Number,
                                                                               new ChineseNumberParserConfiguration(numConfig));
             this.ConnectorToken = string.Empty;

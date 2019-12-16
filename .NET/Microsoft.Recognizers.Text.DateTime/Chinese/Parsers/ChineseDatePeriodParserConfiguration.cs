@@ -15,11 +15,11 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
         private static readonly IDateTimeExtractor SingleDateExtractor = new ChineseDateExtractorConfiguration();
 
-        private static readonly IExtractor IntegerExtractor = new IntegerExtractor();
-
         private static readonly IDateTimeExtractor DurationExtractor = new ChineseDurationExtractorConfiguration();
 
-        private static IParser integerParser;
+        private readonly IExtractor integerExtractor;
+
+        private readonly IParser integerParser;
 
         private readonly IFullDateTimeParserConfiguration config;
 
@@ -36,6 +36,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
+            integerExtractor = new IntegerExtractor(numConfig);
             integerParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(numConfig));
 
         }
@@ -166,11 +167,28 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             return candidateResults;
         }
 
+        private static DateObject ComputeDate(int cardinal, int weekday, int month, int year)
+        {
+            var firstDay = DateObject.MinValue.SafeCreateFromValue(year, month, 1);
+            var firstWeekday = firstDay.This((DayOfWeek)weekday);
+            if (weekday == 0)
+            {
+                weekday = 7;
+            }
+
+            if (weekday < (int)firstDay.DayOfWeek)
+            {
+                firstWeekday = firstDay.Next((DayOfWeek)weekday);
+            }
+
+            return firstWeekday.AddDays(7 * (cardinal - 1));
+        }
+
         // convert Chinese Number to Integer
-        private static int ConvertChineseToNum(string numStr)
+        private int ConvertChineseToNum(string numStr)
         {
             var num = -1;
-            var er = IntegerExtractor.Extract(numStr);
+            var er = integerExtractor.Extract(numStr);
             if (er.Count != 0)
             {
                 if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
@@ -183,12 +201,12 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
         }
 
         // convert Chinese Year to Integer
-        private static int ConvertChineseToInteger(string yearChsStr)
+        private int ConvertChineseToInteger(string yearChsStr)
         {
             var year = 0;
             var num = 0;
 
-            var er = IntegerExtractor.Extract(yearChsStr);
+            var er = integerExtractor.Extract(yearChsStr);
             if (er.Count != 0)
             {
                 if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
@@ -203,7 +221,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
                 foreach (var ch in yearChsStr)
                 {
                     num *= 10;
-                    er = IntegerExtractor.Extract(ch.ToString());
+                    er = integerExtractor.Extract(ch.ToString());
                     if (er.Count != 0)
                     {
                         if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
@@ -221,23 +239,6 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             }
 
             return year == 0 ? -1 : year;
-        }
-
-        private static DateObject ComputeDate(int cardinal, int weekday, int month, int year)
-        {
-            var firstDay = DateObject.MinValue.SafeCreateFromValue(year, month, 1);
-            var firstWeekday = firstDay.This((DayOfWeek)weekday);
-            if (weekday == 0)
-            {
-                weekday = 7;
-            }
-
-            if (weekday < (int)firstDay.DayOfWeek)
-            {
-                firstWeekday = firstDay.Next((DayOfWeek)weekday);
-            }
-
-            return firstWeekday.AddDays(7 * (cardinal - 1));
         }
 
         private DateTimeResolutionResult ParseSimpleCases(string text, DateObject referenceDate)

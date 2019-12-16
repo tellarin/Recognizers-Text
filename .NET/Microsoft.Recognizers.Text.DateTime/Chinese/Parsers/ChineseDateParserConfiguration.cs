@@ -33,10 +33,12 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
-            integerExtractor = new IntegerExtractor();
-            ordinalExtractor = new OrdinalExtractor();
-            durationExtractor = new ChineseDurationExtractorConfiguration();
+            integerExtractor = new IntegerExtractor(numConfig);
+            ordinalExtractor = new OrdinalExtractor(numConfig);
+
             numberParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(numConfig));
+
+            durationExtractor = new ChineseDurationExtractorConfiguration();
         }
 
         public ParseResult Parse(ExtractResult extResult)

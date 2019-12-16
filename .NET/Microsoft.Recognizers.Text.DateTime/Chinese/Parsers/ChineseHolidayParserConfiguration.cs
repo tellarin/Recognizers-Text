@@ -59,7 +59,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
         public static readonly Dictionary<string, string> NoFixedTimex = DateTimeDefinitions.HolidayNoFixedTimex;
 
-        private static readonly IExtractor IntegerExtractor = new IntegerExtractor();
+        private readonly IExtractor integerExtractor;
 
         private readonly IParser integerParser;
 
@@ -77,6 +77,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
 
             var numConfig = new BaseNumberOptionsConfiguration(config.Culture, numOptions);
 
+            integerExtractor = new IntegerExtractor(numConfig);
             integerParser = new BaseCJKNumberParser(new ChineseNumberParserConfiguration(numConfig));
 
         }
@@ -391,7 +392,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
             var year = 0;
             var num = 0;
 
-            var er = IntegerExtractor.Extract(yearChsStr);
+            var er = integerExtractor.Extract(yearChsStr);
             if (er.Count != 0)
             {
                 if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))
@@ -406,7 +407,7 @@ namespace Microsoft.Recognizers.Text.DateTime.Chinese
                 foreach (var ch in yearChsStr)
                 {
                     num *= 10;
-                    er = IntegerExtractor.Extract(ch.ToString());
+                    er = integerExtractor.Extract(ch.ToString());
                     if (er.Count != 0)
                     {
                         if (er[0].Type.Equals(Number.Constants.SYS_NUM_INTEGER, StringComparison.Ordinal))

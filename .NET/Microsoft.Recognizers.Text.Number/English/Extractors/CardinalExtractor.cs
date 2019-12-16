@@ -1,11 +1,10 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 namespace Microsoft.Recognizers.Text.Number.English
 {
-    public class CardinalExtractor : BaseNumberExtractor
+    public class CardinalExtractor : CachedNumberExtractor
     {
         private static readonly ConcurrentDictionary<string, CardinalExtractor> Instances =
             new ConcurrentDictionary<string, CardinalExtractor>();
@@ -49,23 +48,10 @@ namespace Microsoft.Recognizers.Text.Number.English
             return Instances[extractorKey];
         }
 
-        public override List<ExtractResult> Extract(string source)
+        protected override object GenKey(string input)
         {
-
-            List<ExtractResult> results;
-
-            if ((this.Options & NumberOptions.NoProtoCache) != 0)
-            {
-                results = base.Extract(source);
-            }
-            else
-            {
-                var key = (keyPrefix, source);
-
-                results = ResultsCache.GetOrCreate(key, () => base.Extract(source));
-            }
-
-            return results;
+            return (keyPrefix, input);
         }
+
     }
 }
